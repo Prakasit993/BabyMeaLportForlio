@@ -165,15 +165,16 @@ body {
 .glass-card {
   background: var(--bg-card);
   border: 1px solid var(--border-glass);
-  border-radius: 24px;
+  border-radius: 20px;
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .glass-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
   border-color: var(--accent-primary);
-  box-shadow: var(--shadow-glow);
+  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.2);
 }
 
 /* Section Styles */
@@ -464,6 +465,27 @@ section {
   border: 1px solid var(--border-glass);
   border-radius: 16px;
   padding: 24px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Custom Scrollbar for Admin */
+.admin-container ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.admin-container ::-webkit-scrollbar-track {
+  background: var(--bg-glass);
+  border-radius: 3px;
+}
+
+.admin-container ::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 3px;
+}
+
+.admin-container ::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
 }
 
 @media (max-width: 640px) {

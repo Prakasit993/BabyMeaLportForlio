@@ -63,7 +63,7 @@ export default function TechStack({ techStack }: TechStackProps) {
                     <h2 className="section-title">เทคโนโลยีที่ใช้</h2>
                 </motion.div>
 
-                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 px-2 sm:px-4">
                     {displayStack.map((category, index) => (
                         <motion.div
                             key={category.id}
@@ -71,7 +71,7 @@ export default function TechStack({ techStack }: TechStackProps) {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="p-4 sm:p-6 md:p-8 bg-[var(--bg-card)] border border-[var(--border-glass)] rounded-xl sm:rounded-2xl hover:border-[var(--accent-primary)] transition-all"
+                            className="p-5 sm:p-6 md:p-8 bg-[var(--bg-card)] border border-[var(--border-glass)] rounded-xl sm:rounded-2xl hover:border-[var(--accent-primary)] transition-all"
                         >
                             {/* Category Header */}
                             <div className="flex items-center gap-3 mb-5">

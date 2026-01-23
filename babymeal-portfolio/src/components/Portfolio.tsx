@@ -66,7 +66,7 @@ export default function Portfolio({ projects }: PortfolioProps) {
                     </p>
                 </motion.div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 px-2 sm:px-4">
                     {displayProjects.map((project, index) => (
                         <motion.article
                             key={project.id}
@@ -74,7 +74,7 @@ export default function Portfolio({ projects }: PortfolioProps) {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="glass-card p-6 sm:p-8 md:p-10 relative overflow-hidden group"
+                            className="glass-card p-6 sm:p-8 md:p-10 lg:p-12 relative overflow-hidden group"
                         >
                             {/* Top border animation */}
                             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
