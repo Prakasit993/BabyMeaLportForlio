@@ -108,59 +108,82 @@ export default function Portfolio({ projects }: PortfolioProps) {
                     viewport={{ once: true }}
                     className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
                 >
-                    {displayProjects.map((project) => (
-                        <motion.article
-                            key={project.id}
-                            variants={itemVariants}
-                            className="glass-card p-1 group flex flex-col h-full overflow-hidden"
-                        >
-                            <div className="p-8 md:p-10 flex flex-col h-full bg-[var(--bg-secondary)]/40 rounded-[19px] border border-white/5 group-hover:bg-transparent transition-colors duration-500">
-                                {/* Icon with spotlight */}
-                                <div className="relative mb-10 w-16 h-16">
-                                    <div className="absolute inset-0 bg-[var(--accent-primary)]/20 blur-xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-500"></div>
-                                    <div className="relative w-16 h-16 flex items-center justify-center bg-white/5 border border-white/10 rounded-2xl text-3xl shadow-xl z-10 group-hover:-translate-y-1 transition-transform">
-                                        {project.icon}
+                    {displayProjects.map((project) => {
+                        const CardWrapper = project.link_url ? motion.a : motion.article;
+                        const wrapperProps = project.link_url ? {
+                            href: project.link_url,
+                            target: "_blank",
+                            rel: "noopener noreferrer",
+                        } : {};
+
+                        return (
+                            <CardWrapper
+                                key={project.id}
+                                variants={itemVariants}
+                                {...wrapperProps}
+                                className="glass-card p-1 group flex flex-col h-full overflow-hidden cursor-pointer no-underline"
+                            >
+                                <div className="p-8 md:p-10 flex flex-col h-full bg-[var(--bg-secondary)]/40 rounded-[19px] border border-white/5 group-hover:bg-transparent transition-colors duration-500">
+                                    {/* Media or Icon with spotlight */}
+                                    <div className="relative mb-8 w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-[var(--accent-primary)]/30 transition-colors duration-500 bg-white/5">
+                                        <div className="absolute inset-0 bg-[var(--accent-primary)]/5 blur-2xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+                                        {project.video_url ? (
+                                            <video
+                                                src={project.video_url}
+                                                className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-700"
+                                                autoPlay muted loop playsInline
+                                            />
+                                        ) : project.image_url ? (
+                                            <img
+                                                src={project.image_url}
+                                                alt={project.title}
+                                                className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-5xl group-hover:scale-125 transition-transform duration-500">
+                                                {project.icon}
+                                            </div>
+                                        )}
+
+                                        {/* Glass Overlay on hover */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                    </div>
+
+                                    <div className="flex-grow">
+                                        <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover:text-[var(--accent-primary)] transition-colors duration-300 antialiased tracking-tight">
+                                            {locale === 'en' ? (project.title_en || project.title) : project.title}
+                                        </h3>
+                                        <p className="text-[var(--accent-tertiary)] text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase mb-6 opacity-90">
+                                            {locale === 'en' ? (project.subtitle_en || project.subtitle) : project.subtitle}
+                                        </p>
+                                        <p className="text-[var(--text-secondary)] leading-[1.8] mb-8 line-clamp-3 font-normal text-sm md:text-base">
+                                            {locale === 'en' ? (project.description_en || project.description) : project.description}
+                                        </p>
+                                    </div>
+
+                                    <div className="mt-auto space-y-6 w-full">
+                                        <div className="flex flex-wrap gap-2">
+                                            {project.tags.map((tag) => (
+                                                <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] md:text-xs font-semibold text-[var(--text-secondary)] group-hover:border-[var(--accent-primary)]/30 group-hover:text-[var(--text-primary)] transition-all">
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+
+                                        {project.link_url && (
+                                            <div className="inline-flex items-center gap-3 text-sm font-bold text-[var(--accent-primary)] group-hover:text-[var(--accent-secondary)] transition-colors group/link pt-2">
+                                                {t('portfolio.view_details')}
+                                                <svg className="w-5 h-5 translate-x-0 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                </svg>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
-
-                                <div className="flex-grow">
-                                    <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover:text-[var(--accent-primary)] transition-colors duration-300 antialiased tracking-tight">
-                                        {locale === 'en' ? (project.title_en || project.title) : project.title}
-                                    </h3>
-                                    <p className="text-[var(--accent-tertiary)] text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase mb-8 opacity-90">
-                                        {locale === 'en' ? (project.subtitle_en || project.subtitle) : project.subtitle}
-                                    </p>
-                                    <p className="text-[var(--text-secondary)] leading-[1.8] mb-10 line-clamp-4 font-normal text-sm md:text-base">
-                                        {locale === 'en' ? (project.description_en || project.description) : project.description}
-                                    </p>
-                                </div>
-
-                                <div className="mt-auto space-y-8 w-full">
-                                    <div className="flex flex-wrap justify-center gap-3">
-                                        {project.tags.map((tag) => (
-                                            <span key={tag} className="px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-xs md:text-sm font-semibold text-[var(--text-secondary)] group-hover:border-[var(--accent-primary)]/50 group-hover:text-[var(--text-primary)] group-hover:bg-[var(--accent-primary)]/10 transition-all shadow-sm">
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    {project.link_url && (
-                                        <a
-                                            href={project.link_url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-3 text-sm font-bold text-[var(--accent-primary)] hover:text-[var(--accent-secondary)] transition-colors group/link pt-2"
-                                        >
-                                            {t('portfolio.view_details')}
-                                            <svg className="w-5 h-5 translate-x-0 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                            </svg>
-                                        </a>
-                                    )}
-                                </div>
-                            </div>
-                        </motion.article>
-                    ))}
+                            </CardWrapper>
+                        );
+                    })}
                 </motion.div>
             </div>
         </section>

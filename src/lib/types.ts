@@ -30,6 +30,8 @@ export interface Project {
     description: string
     description_en?: string
     icon: string
+    image_url?: string | null
+    video_url?: string | null
     tags: string[]
     link_url: string | null
     sort_order: number

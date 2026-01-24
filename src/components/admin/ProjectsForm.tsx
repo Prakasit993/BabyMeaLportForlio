@@ -49,6 +49,37 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
         setProjects(prev => prev.filter((_, i) => i !== index))
     }
 
+    async function handleMediaUpload(index: number, field: 'image_url' | 'video_url', e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0]
+        if (!file) return
+
+        setLoading(true)
+        setMessage('')
+        try {
+            const supabase = createClient()
+            const fileExt = file.name.split('.').pop()
+            const fileName = `project-${field}-${Date.now()}.${fileExt}`
+
+            const { error: uploadError } = await supabase.storage
+                .from('portfolio')
+                .upload(fileName, file, { upsert: true })
+
+            if (uploadError) throw new Error(`อัพโหลดไม่สำเร็จ: ${uploadError.message}`)
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('portfolio')
+                .getPublicUrl(fileName)
+
+            handleChange(index, field, publicUrl)
+            setMessage(t('admin.success'))
+        } catch (error: any) {
+            console.error(error)
+            setMessage(t('admin.error'))
+        } finally {
+            setLoading(false)
+        }
+    }
+
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
         setLoading(true)
@@ -68,6 +99,8 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
                 description: p.description || '',
                 description_en: p.description_en || '',
                 icon: p.icon || '📦',
+                image_url: p.image_url || null,
+                video_url: p.video_url || null,
                 tags: p.tags || [],
                 link_url: p.link_url || null,
                 sort_order: index + 1
@@ -130,6 +163,65 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
                                     ลบชุดนี้
                                 </button>
                             )}
+                        </div>
+
+                        {/* Media Upload Section */}
+                        <div className="grid md:grid-cols-2 gap-6 mb-8 p-6 bg-white/5 rounded-2xl border border-white/5">
+                            <div className="space-y-4">
+                                <label className="block text-xs font-bold text-[var(--accent-primary)] uppercase tracking-widest">Project Image / Thumbnail</label>
+                                <div className="flex items-center gap-4">
+                                    <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-white/5 border border-dashed border-white/20 flex items-center justify-center">
+                                        {project.image_url ? (
+                                            <img src={project.image_url} alt="Project" className="w-full h-full object-cover" />
+                                        ) : (
+                                            <span className="text-2xl">🖼️</span>
+                                        )}
+                                    </div>
+                                    <div className="flex-1">
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            id={`image-upload-${index}`}
+                                            className="hidden"
+                                            onChange={(e) => handleMediaUpload(index, 'image_url', e)}
+                                        />
+                                        <label htmlFor={`image-upload-${index}`} className="admin-button admin-button-secondary text-xs cursor-pointer block text-center">
+                                            {loading ? '...' : 'อัพโหลดรูปภาพ'}
+                                        </label>
+                                        {project.image_url && (
+                                            <button type="button" onClick={() => handleChange(index, 'image_url', '')} className="text-[10px] text-red-400 mt-2 hover:underline">เอาออก</button>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-4">
+                                <label className="block text-xs font-bold text-[var(--accent-secondary)] uppercase tracking-widest">Project Video (Optional)</label>
+                                <div className="flex items-center gap-4">
+                                    <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-white/5 border border-dashed border-white/20 flex items-center justify-center">
+                                        {project.video_url ? (
+                                            <span className="text-2xl">📹</span>
+                                        ) : (
+                                            <span className="text-2xl">🎥</span>
+                                        )}
+                                    </div>
+                                    <div className="flex-1">
+                                        <input
+                                            type="file"
+                                            accept="video/*"
+                                            id={`video-upload-${index}`}
+                                            className="hidden"
+                                            onChange={(e) => handleMediaUpload(index, 'video_url', e)}
+                                        />
+                                        <label htmlFor={`video-upload-${index}`} className="admin-button admin-button-secondary text-xs cursor-pointer block text-center">
+                                            {loading ? '...' : 'อัพโหลดวิดีโอ'}
+                                        </label>
+                                        {project.video_url && (
+                                            <button type="button" onClick={() => handleChange(index, 'video_url', '')} className="text-[10px] text-red-400 mt-2 hover:underline">เอาออก</button>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="grid md:grid-cols-3 gap-6 mb-8">

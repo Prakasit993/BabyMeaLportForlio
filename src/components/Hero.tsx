@@ -112,8 +112,8 @@ export default function Hero({ profile }: HeroProps) {
             </motion.div>
 
             {/* Title with Typewriter */}
-            <div className="min-h-[80px] sm:min-h-[100px] mb-4 relative z-20">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold gradient-text leading-[1.1] tracking-tight px-4">
+            <div className="min-h-[80px] sm:min-h-[100px] mb-8 relative z-20">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold gradient-text leading-[1.3] tracking-tight px-4">
                     {displayText}
                     <span className="animate-pulse border-r-4 border-[var(--accent-primary)]">&nbsp;</span>
                 </h1>
@@ -124,7 +124,7 @@ export default function Hero({ profile }: HeroProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.8 }}
-                className="text-xl sm:text-2xl md:text-3xl text-[var(--text-secondary)] mb-8 font-medium tracking-wide relative z-20"
+                className="text-xl sm:text-2xl md:text-3xl text-[var(--text-secondary)] mb-10 font-medium tracking-wide relative z-20"
             >
                 {profile?.full_name || 'Business Solution Architect'}
             </motion.p>
@@ -136,9 +136,9 @@ export default function Hero({ profile }: HeroProps) {
                 transition={{ duration: 0.8, delay: 1.2 }}
                 className="relative z-20 max-w-2xl mx-auto px-4"
             >
-                <div className="px-6 py-5 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl backdrop-blur-2xl shadow-2xl relative overflow-hidden group">
+                <div className="px-6 py-6 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl backdrop-blur-2xl shadow-2xl relative overflow-hidden group">
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--accent-primary)]/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                    <p className="text-sm sm:text-base md:text-lg text-[var(--accent-tertiary)] italic leading-relaxed">
+                    <p className="text-base sm:text-lg md:text-xl text-[var(--accent-tertiary)] italic leading-relaxed">
                         &quot;{tagline}&quot;
                     </p>
                 </div>
@@ -191,18 +191,47 @@ export default function Hero({ profile }: HeroProps) {
 
             {/* Scroll Indicator */}
             <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2 }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[var(--text-muted)] text-xs font-semibold uppercase tracking-[0.2em] relative z-20"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 2, duration: 1 }}
+                className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 relative z-20 group cursor-pointer"
+                onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
             >
-                <span className="opacity-60 mb-1">{t('hero.scroll')}</span>
-                <div className="w-6 h-10 border-2 border-[var(--border-glass)] rounded-full flex justify-center p-1.5">
-                    <motion.div
-                        animate={{ y: [0, 12, 0] }}
-                        transition={{ repeat: Infinity, duration: 1.5 }}
-                        className="w-1.5 h-1.5 bg-[var(--accent-primary)] rounded-full"
-                    ></motion.div>
+                <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40 group-hover:opacity-100 transition-opacity duration-500 text-[var(--text-primary)] mb-1">
+                    {t('hero.scroll')}
+                </span>
+
+                <div className="relative">
+                    {/* Mouse Frame */}
+                    <div className="w-6 h-10 border-2 border-[var(--border-glass)] rounded-full flex justify-center p-1.5 bg-[var(--bg-glass)] backdrop-blur-md group-hover:border-[var(--accent-primary)]/50 transition-colors duration-500">
+                        {/* Animated Wheel */}
+                        <motion.div
+                            animate={{
+                                y: [0, 14, 0],
+                                opacity: [0, 1, 0]
+                            }}
+                            transition={{
+                                repeat: Infinity,
+                                duration: 2,
+                                ease: "easeInOut"
+                            }}
+                            className="w-1 h-2 bg-gradient-to-b from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-full shadow-[0_0_8px_var(--accent-primary)]"
+                        ></motion.div>
+                    </div>
+
+                    {/* Subtle Glow behind mouse */}
+                    <div className="absolute inset-0 bg-[var(--accent-primary)]/10 blur-xl rounded-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                </div>
+
+                {/* Pulsing Chevrons */}
+                <div className="flex flex-col items-center -mt-1 scale-75">
+                    <motion.svg
+                        animate={{ y: [0, 5, 0], opacity: [0.3, 1, 0.3] }}
+                        transition={{ repeat: Infinity, duration: 1.5, delay: 0 }}
+                        className="w-4 h-4 text-[var(--accent-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+                    </motion.svg>
                 </div>
             </motion.div>
         </section>
