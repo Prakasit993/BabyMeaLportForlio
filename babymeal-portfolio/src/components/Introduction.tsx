@@ -44,7 +44,7 @@ Next.js, AI และ Automation`
                         <div className="glass-card p-8 md:p-12 relative group">
                             <div className="absolute -top-4 -left-4 w-12 h-12 bg-[var(--accent-primary)]/20 rounded-xl blur-xl group-hover:bg-[var(--accent-primary)]/40 transition-colors"></div>
 
-                            <p className="text-lg md:text-xl leading-relaxed text-[var(--text-secondary)] font-medium">
+                            <p className="text-lg md:text-xl leading-[1.8] text-[var(--text-secondary)] font-medium">
                                 {profile?.introduction || defaultIntro}
                             </p>
 

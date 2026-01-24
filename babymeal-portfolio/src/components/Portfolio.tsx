@@ -103,9 +103,9 @@ export default function Portfolio({ projects }: PortfolioProps) {
                             variants={itemVariants}
                             className="glass-card p-1 group flex flex-col h-full overflow-hidden"
                         >
-                            <div className="p-8 flex flex-col h-full bg-[var(--bg-secondary)]/40 rounded-[19px] border border-white/5 group-hover:bg-transparent transition-colors duration-500">
+                            <div className="p-8 md:p-10 flex flex-col h-full bg-[var(--bg-secondary)]/40 rounded-[19px] border border-white/5 group-hover:bg-transparent transition-colors duration-500">
                                 {/* Icon with spotlight */}
-                                <div className="relative mb-8 w-16 h-16">
+                                <div className="relative mb-10 w-16 h-16">
                                     <div className="absolute inset-0 bg-[var(--accent-primary)]/20 blur-xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-500"></div>
                                     <div className="relative w-16 h-16 flex items-center justify-center bg-white/5 border border-white/10 rounded-2xl text-3xl shadow-xl z-10 group-hover:-translate-y-1 transition-transform">
                                         {project.icon}
@@ -113,21 +113,21 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                 </div>
 
                                 <div className="flex-grow">
-                                    <h3 className="text-2xl font-bold mb-2 group-hover:text-[var(--accent-primary)] transition-colors duration-300 antialiased italic">
+                                    <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover:text-[var(--accent-primary)] transition-colors duration-300 antialiased tracking-tight">
                                         {project.title}
                                     </h3>
-                                    <p className="text-[var(--accent-tertiary)] text-xs font-bold tracking-[0.2em] uppercase mb-6 opacity-80">
+                                    <p className="text-[var(--accent-tertiary)] text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase mb-8 opacity-90">
                                         {project.subtitle}
                                     </p>
-                                    <p className="text-[var(--text-secondary)] leading-relaxed mb-8 line-clamp-4 font-normal">
+                                    <p className="text-[var(--text-secondary)] leading-[1.8] mb-10 line-clamp-4 font-normal text-sm md:text-base">
                                         {project.description}
                                     </p>
                                 </div>
 
-                                <div className="mt-auto space-y-6">
-                                    <div className="flex flex-wrap gap-2">
+                                <div className="mt-auto space-y-8 w-full">
+                                    <div className="flex flex-wrap justify-center gap-3">
                                         {project.tags.map((tag) => (
-                                            <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] sm:text-xs font-medium text-[var(--text-muted)] group-hover:border-[var(--accent-primary)]/30 group-hover:text-[var(--text-primary)] transition-all">
+                                            <span key={tag} className="px-4 py-2 bg-white/10 border border-white/20 rounded-xl text-xs md:text-sm font-semibold text-[var(--text-secondary)] group-hover:border-[var(--accent-primary)]/50 group-hover:text-[var(--text-primary)] group-hover:bg-[var(--accent-primary)]/10 transition-all shadow-sm">
                                                 {tag}
                                             </span>
                                         ))}
@@ -138,10 +138,10 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                             href={project.link_url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-2 text-sm font-bold text-[var(--accent-primary)] hover:text-[var(--accent-secondary)] transition-colors group/link"
+                                            className="inline-flex items-center gap-3 text-sm font-bold text-[var(--accent-primary)] hover:text-[var(--accent-secondary)] transition-colors group/link pt-2"
                                         >
                                             View Details
-                                            <svg className="w-4 h-4 translate-x-0 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg className="w-5 h-5 translate-x-0 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                             </svg>
                                         </a>
