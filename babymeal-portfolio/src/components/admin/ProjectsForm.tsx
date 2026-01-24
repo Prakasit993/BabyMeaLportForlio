@@ -8,9 +8,10 @@ import type { Project } from '@/lib/types'
 
 interface ProjectsFormProps {
     projects: Project[]
+    userEmail: string
 }
 
-export default function ProjectsForm({ projects: initialProjects }: ProjectsFormProps) {
+export default function ProjectsForm({ projects: initialProjects, userEmail }: ProjectsFormProps) {
     const [projects, setProjects] = useState<Partial<Project>[]>(
         initialProjects.length > 0 ? initialProjects : [
             { title: '', subtitle: '', description: '', icon: '🚀', tags: [], link_url: '', sort_order: 1 }
@@ -73,14 +74,15 @@ export default function ProjectsForm({ projects: initialProjects }: ProjectsForm
             await logAudit({
                 action: 'UPDATE',
                 tableName: 'portfolio_projects',
-                newData: { projects: projectsToInsert }
+                newData: { projects: projectsToInsert },
+                userEmail: userEmail
             })
 
             setMessage('บันทึกสำเร็จ!')
             router.refresh()
-        } catch (error) {
+        } catch (error: any) {
             console.error(error)
-            setMessage('เกิดข้อผิดพลาด กรุณาลองใหม่')
+            setMessage(`เกิดข้อผิดพลาด: ${error.message || 'กรุณาลองใหม่'}`)
         } finally {
             setLoading(false)
         }

@@ -3,27 +3,29 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { logoutAction } from '@/lib/auth-actions'
 import type { Profile, Project, TechStack } from '@/lib/types'
-import type { User } from '@supabase/supabase-js'
 import ProfileForm from './ProfileForm'
 import ProjectsForm from './ProjectsForm'
 import TechStackForm from './TechStackForm'
 import PasskeySettings from './PasskeySettings'
+import AuditLog from './AuditLog'
 
 interface AdminDashboardProps {
-    user: User
+    user: { email: string }
     profile: Profile | null
     projects: Project[]
     techStack: TechStack[]
 }
 
-type Tab = 'profile' | 'projects' | 'techstack' | 'security'
+type Tab = 'profile' | 'projects' | 'techstack' | 'security' | 'activity'
 
 const tabs = [
     { id: 'profile' as Tab, label: 'Profile', icon: '👤', description: 'ข้อมูลส่วนตัว' },
     { id: 'projects' as Tab, label: 'Projects', icon: '📦', description: 'ผลงาน' },
     { id: 'techstack' as Tab, label: 'Tech Stack', icon: '🛠️', description: 'เทคโนโลยี' },
-    { id: 'security' as Tab, label: 'Security', icon: '🔐', description: 'ความปลอดภัย' }
+    { id: 'security' as Tab, label: 'Security', icon: '🔐', description: 'ความปลอดภัย' },
+    { id: 'activity' as Tab, label: 'Activity', icon: '📜', description: 'กิจกรรม' }
 ]
 
 export default function AdminDashboard({ user, profile, projects, techStack }: AdminDashboardProps) {
@@ -32,8 +34,7 @@ export default function AdminDashboard({ user, profile, projects, techStack }: A
     const router = useRouter()
 
     async function handleLogout() {
-        const supabase = createClient()
-        await supabase.auth.signOut()
+        await logoutAction()
         router.push('/admin/login')
         router.refresh()
     }
@@ -169,10 +170,11 @@ export default function AdminDashboard({ user, profile, projects, techStack }: A
                     {/* Content Area */}
                     <div className="p-4 sm:p-6 lg:p-8">
                         <div className="admin-card">
-                            {activeTab === 'profile' && <ProfileForm profile={profile} />}
-                            {activeTab === 'projects' && <ProjectsForm projects={projects} />}
-                            {activeTab === 'techstack' && <TechStackForm techStack={techStack} />}
+                            {activeTab === 'profile' && <ProfileForm profile={profile} userEmail={user.email} />}
+                            {activeTab === 'projects' && <ProjectsForm projects={projects} userEmail={user.email} />}
+                            {activeTab === 'techstack' && <TechStackForm techStack={techStack} userEmail={user.email} />}
                             {activeTab === 'security' && <PasskeySettings />}
+                            {activeTab === 'activity' && <AuditLog />}
                         </div>
                     </div>
                 </main>

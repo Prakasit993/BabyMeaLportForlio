@@ -6,6 +6,7 @@ interface AuditLogParams {
     recordId?: string
     oldData?: Record<string, unknown>
     newData?: Record<string, unknown>
+    userEmail?: string // Add this
 }
 
 export async function logAudit({
@@ -13,17 +14,20 @@ export async function logAudit({
     tableName,
     recordId,
     oldData,
-    newData
+    newData,
+    userEmail // Add this
 }: AuditLogParams) {
     try {
         const supabase = createClient()
         const { data: { user } } = await supabase.auth.getUser()
 
-        if (!user) return
+        // Use Supabase user if available, otherwise use passed email
+        const actorEmail = user?.email || userEmail || 'system@webapp'
+        const actorId = user?.id || null
 
         await supabase.from('portfolio_audit_logs').insert({
-            user_id: user.id,
-            user_email: user.email,
+            user_id: actorId,
+            user_email: actorEmail,
             action,
             table_name: tableName,
             record_id: recordId,

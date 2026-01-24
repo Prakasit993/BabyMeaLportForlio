@@ -1,14 +1,16 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import AdminDashboard from '@/components/admin/AdminDashboard'
+import { getAdminSession } from '@/lib/auth-actions'
 
 export default async function AdminPage() {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+    const session = await getAdminSession()
 
-    if (!user) {
+    if (!session) {
         redirect('/admin/login')
     }
+
+    const supabase = await createClient()
 
     // Fetch current data
     const [profileRes, projectsRes, techStackRes] = await Promise.all([
@@ -19,7 +21,7 @@ export default async function AdminPage() {
 
     return (
         <AdminDashboard
-            user={user}
+            user={session}
             profile={profileRes.data}
             projects={projectsRes.data || []}
             techStack={techStackRes.data || []}

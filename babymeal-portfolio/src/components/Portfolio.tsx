@@ -49,76 +49,108 @@ const defaultProjects: Project[] = [
 export default function Portfolio({ projects }: PortfolioProps) {
     const displayProjects = projects.length > 0 ? projects : defaultProjects
 
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2
+            }
+        }
+    }
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 50 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.8, ease: "easeOut" }
+        }
+    }
+
     return (
-        <section className="py-24" id="portfolio">
-            <div className="container">
+        <section className="py-32 relative overflow-hidden" id="portfolio">
+            {/* Decoration */}
+            <div className="absolute top-1/2 left-0 w-64 h-64 bg-[var(--accent-secondary)]/10 blur-[120px] rounded-full -translate-x-1/2"></div>
+
+            <div className="container relative z-10">
                 <motion.div
-                    initial={{ opacity: 0, y: 40 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="section-header"
+                    className="section-header max-w-3xl mx-auto text-center mb-20"
                 >
-                    <span className="section-label">Portfolio</span>
-                    <h2 className="section-title">ผลงานที่โดดเด่น</h2>
-                    <p className="section-description">
-                        ผลงานที่พิสูจน์การทำงานแบบ End-to-End ตั้งแต่การออกแบบโครงสร้างไปจนถึงการดูแลระบบ
+                    <span className="inline-block px-4 py-1.5 bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20 rounded-full mb-4">
+                        <span className="text-[var(--accent-primary)] text-xs font-bold uppercase tracking-widest">Portfolio</span>
+                    </span>
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">ผลงานที่โดดเด่น</h2>
+                    <p className="text-[var(--text-secondary)] text-lg">
+                        ผลงานที่พิสูจน์การทำงานแบบ End-to-End ตั้งแต่การออกแบบโครงสร้างไปจนถึงการพัฒนา AI Solution
                     </p>
                 </motion.div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 px-2 sm:px-4">
-                    {displayProjects.map((project, index) => (
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+                >
+                    {displayProjects.map((project) => (
                         <motion.article
                             key={project.id}
-                            initial={{ opacity: 0, y: 40 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="glass-card p-6 sm:p-8 md:p-10 lg:p-12 relative overflow-hidden group"
+                            variants={itemVariants}
+                            className="glass-card p-1 group flex flex-col h-full overflow-hidden"
                         >
-                            {/* Top border animation */}
-                            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+                            <div className="p-8 flex flex-col h-full bg-[var(--bg-secondary)]/40 rounded-[19px] border border-white/5 group-hover:bg-transparent transition-colors duration-500">
+                                {/* Icon with spotlight */}
+                                <div className="relative mb-8 w-16 h-16">
+                                    <div className="absolute inset-0 bg-[var(--accent-primary)]/20 blur-xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-500"></div>
+                                    <div className="relative w-16 h-16 flex items-center justify-center bg-white/5 border border-white/10 rounded-2xl text-3xl shadow-xl z-10 group-hover:-translate-y-1 transition-transform">
+                                        {project.icon}
+                                    </div>
+                                </div>
 
-                            {/* Icon */}
-                            <div className="w-16 h-16 flex items-center justify-center bg-gradient-to-br from-[rgba(99,102,241,0.1)] to-[rgba(139,92,246,0.1)] rounded-2xl mb-6 text-3xl">
-                                {project.icon}
+                                <div className="flex-grow">
+                                    <h3 className="text-2xl font-bold mb-2 group-hover:text-[var(--accent-primary)] transition-colors duration-300 antialiased italic">
+                                        {project.title}
+                                    </h3>
+                                    <p className="text-[var(--accent-tertiary)] text-xs font-bold tracking-[0.2em] uppercase mb-6 opacity-80">
+                                        {project.subtitle}
+                                    </p>
+                                    <p className="text-[var(--text-secondary)] leading-relaxed mb-8 line-clamp-4 font-normal">
+                                        {project.description}
+                                    </p>
+                                </div>
+
+                                <div className="mt-auto space-y-6">
+                                    <div className="flex flex-wrap gap-2">
+                                        {project.tags.map((tag) => (
+                                            <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-md text-[10px] sm:text-xs font-medium text-[var(--text-muted)] group-hover:border-[var(--accent-primary)]/30 group-hover:text-[var(--text-primary)] transition-all">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+
+                                    {project.link_url && (
+                                        <a
+                                            href={project.link_url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 text-sm font-bold text-[var(--accent-primary)] hover:text-[var(--accent-secondary)] transition-colors group/link"
+                                        >
+                                            View Details
+                                            <svg className="w-4 h-4 translate-x-0 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                        </a>
+                                    )}
+                                </div>
                             </div>
-
-                            {/* Content */}
-                            <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                            <p className="text-sm text-[var(--accent-tertiary)] font-medium mb-4">
-                                {project.subtitle}
-                            </p>
-                            <p className="text-[var(--text-secondary)] text-sm leading-relaxed mb-6">
-                                {project.description}
-                            </p>
-
-                            {/* Tags */}
-                            <div className="flex flex-wrap gap-2">
-                                {project.tags.map((tag) => (
-                                    <span key={tag} className="tag">
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-
-                            {/* Link */}
-                            {project.link_url && (
-                                <a
-                                    href={project.link_url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="mt-6 inline-flex items-center gap-2 text-[var(--accent-primary)] hover:underline"
-                                >
-                                    View Project
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                    </svg>
-                                </a>
-                            )}
                         </motion.article>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     )

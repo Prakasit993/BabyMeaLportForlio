@@ -8,9 +8,10 @@ import type { TechStack } from '@/lib/types'
 
 interface TechStackFormProps {
     techStack: TechStack[]
+    userEmail: string
 }
 
-export default function TechStackForm({ techStack: initialStack }: TechStackFormProps) {
+export default function TechStackForm({ techStack: initialStack, userEmail }: TechStackFormProps) {
     const [techStack, setTechStack] = useState<Partial<TechStack>[]>(
         initialStack.length > 0 ? initialStack : [
             { category: 'Frontend', icon: '🎨', items: [], sort_order: 1 }
@@ -70,14 +71,15 @@ export default function TechStackForm({ techStack: initialStack }: TechStackForm
             await logAudit({
                 action: 'UPDATE',
                 tableName: 'portfolio_tech_stack',
-                newData: { tech_stack: stackToInsert }
+                newData: { tech_stack: stackToInsert },
+                userEmail: userEmail
             })
 
             setMessage('บันทึกสำเร็จ!')
             router.refresh()
-        } catch (error) {
+        } catch (error: any) {
             console.error(error)
-            setMessage('เกิดข้อผิดพลาด กรุณาลองใหม่')
+            setMessage(`เกิดข้อผิดพลาด: ${error.message || 'กรุณาลองใหม่'}`)
         } finally {
             setLoading(false)
         }

@@ -3,7 +3,7 @@ export default function Footer() {
 
     return (
         <footer className="footer">
-            <p className="text-[var(--text-muted)] text-sm">
+            <p className="text-[var(--text-muted)] text-sm text-center px-4">
                 © {currentYear} Senior Full-stack AI Engineer. Built with ❤️ and modern technologies.
             </p>
         </footer>

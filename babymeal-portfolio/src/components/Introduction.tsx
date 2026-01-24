@@ -14,32 +14,54 @@ export default function Introduction({ profile }: IntroductionProps) {
 Next.js, AI และ Automation`
 
     return (
-        <section className="py-24 bg-[var(--bg-secondary)]" id="introduction">
-            <div className="container">
-                <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="section-header"
-                >
-                    <span className="section-label">About Me</span>
-                    <h2 className="section-title">แนะนำตัว</h2>
-                </motion.div>
+        <section className="py-32 bg-[var(--bg-secondary)] relative overflow-hidden" id="introduction">
+            {/* Background decoration */}
+            <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-[var(--accent-primary)]/5 to-transparent skew-x-12 translate-x-1/2"></div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="max-w-4xl mx-auto"
-                >
-                    <div className="quote-block">
-                        <p className="text-base md:text-lg leading-relaxed text-[var(--text-secondary)] relative z-10">
-                            {profile?.introduction || defaultIntro}
-                        </p>
-                    </div>
-                </motion.div>
+            <div className="container relative z-10">
+                <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="lg:w-1/3"
+                    >
+                        <div className="inline-block px-4 py-1.5 bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20 rounded-full mb-6">
+                            <span className="text-[var(--accent-primary)] text-xs font-bold uppercase tracking-widest">About Me</span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">ประวัติย่อ</h2>
+                        <div className="w-20 h-1.5 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-full"></div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                        className="lg:w-2/3"
+                    >
+                        <div className="glass-card p-8 md:p-12 relative group">
+                            <div className="absolute -top-4 -left-4 w-12 h-12 bg-[var(--accent-primary)]/20 rounded-xl blur-xl group-hover:bg-[var(--accent-primary)]/40 transition-colors"></div>
+
+                            <p className="text-lg md:text-xl leading-relaxed text-[var(--text-secondary)] font-medium">
+                                {profile?.introduction || defaultIntro}
+                            </p>
+
+                            <div className="mt-10 flex flex-wrap gap-4">
+                                <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-[var(--accent-tertiary)] hover:bg-white/10 transition-colors">
+                                    <span>🎯</span> Problem Solver
+                                </div>
+                                <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-[var(--accent-tertiary)] hover:bg-white/10 transition-colors">
+                                    <span>⚡</span> Efficiency First
+                                </div>
+                                <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-[var(--accent-tertiary)] hover:bg-white/10 transition-colors">
+                                    <span>📈</span> Result Driven
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
             </div>
         </section>
     )

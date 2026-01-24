@@ -9,9 +9,10 @@ import Image from 'next/image'
 
 interface ProfileFormProps {
     profile: Profile | null
+    userEmail: string
 }
 
-export default function ProfileForm({ profile }: ProfileFormProps) {
+export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState('')
     const [avatarPreview, setAvatarPreview] = useState(profile?.avatar_url || '')
@@ -19,8 +20,8 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
 
     const [formData, setFormData] = useState({
         full_name: profile?.full_name || '',
-        headline: profile?.headline || 'Senior Full-stack AI Engineer',
-        tagline: profile?.tagline || 'Bridging Complex Business Logic with Scalable AI Automation',
+        headline: profile?.headline || '',
+        tagline: profile?.tagline || '',
         introduction: profile?.introduction || '',
         philosophy: profile?.philosophy || '',
         email: profile?.email || '',
@@ -39,26 +40,31 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
         if (!file) return
 
         setLoading(true)
+        setMessage('')
         try {
             const supabase = createClient()
             const fileExt = file.name.split('.').pop()
             const fileName = `avatar-${Date.now()}.${fileExt}`
 
+            // Ensure bucket exists and has correct policies (Instruction in chat)
             const { error: uploadError } = await supabase.storage
                 .from('portfolio')
                 .upload(fileName, file, { upsert: true })
 
-            if (uploadError) throw uploadError
+            if (uploadError) {
+                console.error('Upload Error:', uploadError)
+                throw new Error(`อัพโหลดรูปไม่สำเร็จ: ${uploadError.message}`)
+            }
 
             const { data: { publicUrl } } = supabase.storage
                 .from('portfolio')
                 .getPublicUrl(fileName)
 
             setAvatarPreview(publicUrl)
-            setMessage('อัพโหลดรูปสำเร็จ!')
-        } catch (error) {
+            setMessage('อัพโหลดรูปสำเร็จ! อย่าลืมกดบันทึกการเปลี่ยนแปลงเพื่อยืนยัน')
+        } catch (error: any) {
             console.error(error)
-            setMessage('เกิดข้อผิดพลาดในการอัพโหลดรูป')
+            setMessage(error.message || 'เกิดข้อผิดพลาดในการอัพโหลดรูป')
         } finally {
             setLoading(false)
         }
@@ -101,7 +107,8 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
                     tableName: 'portfolio_profile',
                     recordId: profile.id,
                     oldData: profile as unknown as Record<string, unknown>,
-                    newData: profileData
+                    newData: profileData,
+                    userEmail: userEmail
                 })
             } else {
                 // Insert new
@@ -117,15 +124,16 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
                     action: 'INSERT',
                     tableName: 'portfolio_profile',
                     recordId: newProfile?.id,
-                    newData: profileData
+                    newData: profileData,
+                    userEmail: userEmail
                 })
             }
 
             setMessage('บันทึกสำเร็จ!')
             router.refresh()
-        } catch (error) {
+        } catch (error: any) {
             console.error(error)
-            setMessage('เกิดข้อผิดพลาด กรุณาลองใหม่')
+            setMessage(`เกิดข้อผิดพลาดในการบันทึก: ${error.message || 'ไม่ทราบสาเหตุ'}`)
         } finally {
             setLoading(false)
         }
@@ -136,8 +144,19 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
             <h2 className="text-xl font-bold mb-6">แก้ไขข้อมูลส่วนตัว</h2>
 
             {message && (
-                <div className={`p-4 rounded-lg text-sm ${message.includes('สำเร็จ') ? 'bg-green-500/10 border border-green-500/30 text-green-400' : 'bg-red-500/10 border border-red-500/30 text-red-400'}`}>
-                    {message}
+                <div className={`p-4 rounded-xl flex items-start gap-4 animate-in fade-in slide-in-from-top-4 duration-500 ${message.includes('สำเร็จ')
+                        ? 'bg-green-500/10 border border-green-500/30 text-green-400'
+                        : 'bg-red-500/10 border border-red-500/30 text-red-400'
+                    }`}>
+                    <span className="text-xl">{message.includes('สำเร็จ') ? '✅' : '⚠️'}</span>
+                    <div className="flex-1">
+                        <p className="font-semibold text-sm">{message}</p>
+                        {!message.includes('สำเร็จ') && (
+                            <p className="text-[10px] mt-1 opacity-70">
+                                ตรวจสอบสิทธิ์ RLS หรือสถานะการเชื่อมต่อ Supabase
+                            </p>
+                        )}
+                    </div>
                 </div>
             )}
 
@@ -237,7 +256,7 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
 
             {/* Philosophy */}
             <div>
-                <label className="block text-sm font-medium mb-2">Technical Philosophy</label>
+                <label className="block text-sm font-medium mb-2">แนวคิดในการพัฒนา (Philosophy)</label>
                 <textarea
                     name="philosophy"
                     value={formData.philosophy}
