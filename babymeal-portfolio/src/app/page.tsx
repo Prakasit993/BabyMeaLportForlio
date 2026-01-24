@@ -5,6 +5,7 @@ import Portfolio from '@/components/Portfolio'
 import Philosophy from '@/components/Philosophy'
 import TechStack from '@/components/TechStack'
 import Footer from '@/components/Footer'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 import type { Profile, Project, TechStack as TechStackType } from '@/lib/types'
 
 async function getProfile(): Promise<Profile | null> {
@@ -55,6 +56,7 @@ export default async function HomePage() {
 
   return (
     <main>
+      <LanguageSwitcher />
       <Hero profile={profile} />
       <Introduction profile={profile} />
       <Portfolio projects={projects} />

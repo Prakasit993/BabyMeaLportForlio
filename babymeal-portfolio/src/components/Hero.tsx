@@ -4,14 +4,25 @@ import { motion, useMotionValue, useSpring } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useState, useRef } from 'react'
 import type { Profile } from '@/lib/types'
+import { useLanguage } from '@/lib/context/language-context'
 
 interface HeroProps {
     profile: Profile | null
 }
 
 export default function Hero({ profile }: HeroProps) {
+    const { locale, t } = useLanguage()
     const [displayText, setDisplayText] = useState('')
-    const headline = profile?.headline || 'Senior Full-stack AI Engineer'
+
+    // Choose correct content based on locale
+    const headline = locale === 'en'
+        ? (profile?.headline_en || profile?.headline || 'Senior Full-stack AI Engineer')
+        : (profile?.headline || 'Senior Full-stack AI Engineer')
+
+    const tagline = locale === 'en'
+        ? (profile?.tagline_en || profile?.tagline || 'Bridging Complex Business Logic with Scalable AI Automation')
+        : (profile?.tagline || 'Bridging Complex Business Logic with Scalable AI Automation')
+
     const containerRef = useRef<HTMLDivElement>(null)
 
     const mouseX = useMotionValue(0)
@@ -23,6 +34,7 @@ export default function Hero({ profile }: HeroProps) {
     // Typewriter effect
     useEffect(() => {
         let i = 0
+        setDisplayText('') // Reset on headline change
         const timer = setInterval(() => {
             setDisplayText(headline.slice(0, i))
             i++
@@ -96,7 +108,7 @@ export default function Hero({ profile }: HeroProps) {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-green)] opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--accent-green)]"></span>
                 </span>
-                <span className="font-semibold tracking-wide uppercase opacity-90">Available for Global Projects</span>
+                <span className="font-semibold tracking-wide uppercase opacity-90">{t('hero.available')}</span>
             </motion.div>
 
             {/* Title with Typewriter */}
@@ -127,7 +139,7 @@ export default function Hero({ profile }: HeroProps) {
                 <div className="px-6 py-5 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl backdrop-blur-2xl shadow-2xl relative overflow-hidden group">
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--accent-primary)]/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                     <p className="text-sm sm:text-base md:text-lg text-[var(--accent-tertiary)] italic leading-relaxed">
-                        &quot;{profile?.tagline || 'Bridging Complex Business Logic with Scalable AI Automation'}&quot;
+                        &quot;{tagline}&quot;
                     </p>
                 </div>
             </motion.div>
@@ -184,7 +196,7 @@ export default function Hero({ profile }: HeroProps) {
                 transition={{ delay: 2 }}
                 className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[var(--text-muted)] text-xs font-semibold uppercase tracking-[0.2em] relative z-20"
             >
-                <span className="opacity-60 mb-1">Scroll</span>
+                <span className="opacity-60 mb-1">{t('hero.scroll')}</span>
                 <div className="w-6 h-10 border-2 border-[var(--border-glass)] rounded-full flex justify-center p-1.5">
                     <motion.div
                         animate={{ y: [0, 12, 0] }}

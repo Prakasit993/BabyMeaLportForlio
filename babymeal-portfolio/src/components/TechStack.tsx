@@ -1,7 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import type { TechStack as TechStackType } from '@/lib/types'
+import { useLanguage } from '@/lib/context/language-context'
 
 interface TechStackProps {
     techStack: TechStackType[]
@@ -11,6 +12,7 @@ const defaultTechStack: TechStackType[] = [
     {
         id: '1',
         category: 'Frontend & Design',
+        category_en: 'Frontend & Design',
         icon: '🎨',
         items: ['Next.js', 'Typescript', 'Tailwind', 'Framer', 'Figma', 'UI/UX'],
         sort_order: 1,
@@ -20,6 +22,7 @@ const defaultTechStack: TechStackType[] = [
     {
         id: '2',
         category: 'Backend & Cloud',
+        category_en: 'Backend & Cloud',
         icon: '☁️',
         items: ['Supabase', 'Node.js', 'Python', 'Docker', 'PostgreSQL', 'AWS'],
         sort_order: 2,
@@ -29,6 +32,7 @@ const defaultTechStack: TechStackType[] = [
     {
         id: '3',
         category: 'AI & Logic',
+        category_en: 'AI & Logic',
         icon: '🧠',
         items: ['OpenAI API', 'LangChain', 'n8n', 'Make', 'Claude', 'Automation'],
         sort_order: 3,
@@ -38,6 +42,7 @@ const defaultTechStack: TechStackType[] = [
     {
         id: '4',
         category: 'Tools & DevOps',
+        category_en: 'Tools & DevOps',
         icon: '🛠️',
         items: ['Git', 'VS Code', 'Postman', 'Vercel', 'Monitoring', 'CI/CD'],
         sort_order: 4,
@@ -47,6 +52,7 @@ const defaultTechStack: TechStackType[] = [
 ]
 
 export default function TechStack({ techStack }: TechStackProps) {
+    const { locale, t } = useLanguage()
     const displayStack = techStack.length > 0 ? techStack : defaultTechStack
 
     const containerVariants = {
@@ -65,7 +71,7 @@ export default function TechStack({ techStack }: TechStackProps) {
             opacity: 1,
             scale: 1,
             y: 0,
-            transition: { duration: 0.6, ease: "easeOut" }
+            transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }
         }
     }
 
@@ -85,7 +91,7 @@ export default function TechStack({ techStack }: TechStackProps) {
                     <span className="inline-block px-4 py-1.5 bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20 rounded-full mb-4">
                         <span className="text-[var(--accent-primary)] text-xs font-bold uppercase tracking-widest">Tech Stack</span>
                     </span>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text italic antialiased">อาวุธที่ใช้สร้างสรรค์</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text italic antialiased">{t('tech.title')}</h2>
                 </motion.div>
 
                 <motion.div
@@ -108,7 +114,9 @@ export default function TechStack({ techStack }: TechStackProps) {
                                 <div className="w-16 h-16 flex items-center justify-center bg-white/5 border border-white/10 rounded-2xl text-3xl shadow-xl group-hover:-translate-y-2 group-hover:bg-white/10 transition-all duration-300">
                                     {category.icon}
                                 </div>
-                                <h3 className="font-bold text-xl text-[var(--text-primary)] tracking-tight">{category.category}</h3>
+                                <h3 className="font-bold text-xl text-[var(--text-primary)] tracking-tight">
+                                    {locale === 'en' ? (category.category_en || category.category) : category.category}
+                                </h3>
                             </div>
 
                             {/* Tech Items */}

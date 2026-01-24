@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   keywords: "Full-stack Developer, AI Engineer, Next.js, Supabase, n8n, Business Automation, Thailand",
 };
 
+import { LanguageProvider } from "@/lib/context/language-context";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,13 +30,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* Animated Background */}
-        <div className="bg-animated">
-          <div className="orb orb-1"></div>
-          <div className="orb orb-2"></div>
-          <div className="orb orb-3"></div>
-        </div>
-        {children}
+        <LanguageProvider>
+          {/* Animated Background */}
+          <div className="bg-animated">
+            <div className="orb orb-1"></div>
+            <div className="orb orb-2"></div>
+            <div className="orb orb-3"></div>
+          </div>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

@@ -11,10 +11,18 @@ interface TechStackFormProps {
     userEmail: string
 }
 
+import { useLanguage } from '@/lib/context/language-context'
+
+interface TechStackFormProps {
+    techStack: TechStack[]
+    userEmail: string
+}
+
 export default function TechStackForm({ techStack: initialStack, userEmail }: TechStackFormProps) {
+    const { t } = useLanguage()
     const [techStack, setTechStack] = useState<Partial<TechStack>[]>(
         initialStack.length > 0 ? initialStack : [
-            { category: 'Frontend', icon: '🎨', items: [], sort_order: 1 }
+            { category: 'Frontend', category_en: 'Frontend', icon: '🎨', items: [], sort_order: 1 }
         ]
     )
     const [loading, setLoading] = useState(false)
@@ -37,7 +45,7 @@ export default function TechStackForm({ techStack: initialStack, userEmail }: Te
     function addCategory() {
         setTechStack(prev => [
             ...prev,
-            { category: '', icon: '⚙️', items: [], sort_order: prev.length + 1 }
+            { category: '', category_en: '', icon: '⚙️', items: [], sort_order: prev.length + 1 }
         ])
     }
 
@@ -59,6 +67,7 @@ export default function TechStackForm({ techStack: initialStack, userEmail }: Te
 
             const stackToInsert = techStack.map((s, index) => ({
                 category: s.category || '',
+                category_en: s.category_en || '',
                 icon: s.icon || '⚙️',
                 items: s.items || [],
                 sort_order: index + 1
@@ -75,11 +84,11 @@ export default function TechStackForm({ techStack: initialStack, userEmail }: Te
                 userEmail: userEmail
             })
 
-            setMessage('บันทึกสำเร็จ!')
+            setMessage(t('admin.success'))
             router.refresh()
         } catch (error: any) {
             console.error(error)
-            setMessage(`เกิดข้อผิดพลาด: ${error.message || 'กรุณาลองใหม่'}`)
+            setMessage(`${t('admin.error')}: ${error.message || ''}`)
         } finally {
             setLoading(false)
         }
@@ -88,51 +97,67 @@ export default function TechStackForm({ techStack: initialStack, userEmail }: Te
     return (
         <form onSubmit={handleSubmit} className="space-y-8">
             <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold">จัดการ Tech Stack</h2>
+                <h2 className="text-xl font-bold">{t('admin.tech.title')}</h2>
                 <button
                     type="button"
                     onClick={addCategory}
                     className="admin-button admin-button-secondary text-sm"
                 >
-                    + เพิ่ม Category
+                    {t('admin.add_category')}
                 </button>
             </div>
 
             {message && (
-                <div className={`p-4 rounded-lg text-sm ${message.includes('สำเร็จ') ? 'bg-green-500/10 border border-green-500/30 text-green-400' : 'bg-red-500/10 border border-red-500/30 text-red-400'}`}>
+                <div className={`p-4 rounded-lg text-sm ${message.toLowerCase().includes('success') || message.includes('สำเร็จ') ? 'bg-green-500/10 border border-green-500/30 text-green-400' : 'bg-red-500/10 border border-red-500/30 text-red-400'}`}>
                     {message}
                 </div>
             )}
 
             <div className="space-y-6">
                 {techStack.map((category, index) => (
-                    <div key={index} className="p-6 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-xl">
-                        <div className="flex items-center justify-between mb-4">
-                            <span className="text-sm text-[var(--text-muted)]">Category #{index + 1}</span>
+                    <div key={index} className="p-8 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl relative group/card">
+                        <div className="absolute -top-3 -left-3 w-10 h-10 bg-[var(--accent-secondary)]/10 rounded-lg flex items-center justify-center font-bold text-sm border border-[var(--accent-secondary)]/20 shadow-lg">
+                            {index + 1}
+                        </div>
+
+                        <div className="flex items-center justify-end mb-6">
                             {techStack.length > 1 && (
                                 <button
                                     type="button"
                                     onClick={() => removeCategory(index)}
-                                    className="text-red-400 hover:text-red-300 text-sm"
+                                    className="px-3 py-1 bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 rounded-lg text-xs font-bold transition-all"
                                 >
-                                    ลบ
+                                    ลบชุดนี้
                                 </button>
                             )}
                         </div>
 
-                        <div className="grid md:grid-cols-2 gap-4 mb-4">
+                        <div className="grid md:grid-cols-3 gap-6 mb-6">
                             <div>
-                                <label className="block text-xs text-[var(--text-muted)] mb-1">Icon (Emoji)</label>
+                                <label className="block text-xs font-bold text-[var(--accent-primary)] uppercase tracking-widest mb-2">Category Icon</label>
                                 <input
                                     type="text"
                                     value={category.icon || ''}
                                     onChange={(e) => handleChange(index, 'icon', e.target.value)}
-                                    className="admin-input"
+                                    className="admin-input text-center text-xl"
                                     placeholder="🎨"
                                 />
                             </div>
+                            <div className="md:col-span-2">
+                                <label className="block text-xs font-bold text-[var(--text-muted)] uppercase tracking-widest mb-2">Tech Items (คั่นด้วย ,)</label>
+                                <input
+                                    type="text"
+                                    value={category.items?.join(', ') || ''}
+                                    onChange={(e) => handleItemsChange(index, e.target.value)}
+                                    className="admin-input"
+                                    placeholder="React, Next.js, Node.js"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6 pt-6 border-t border-white/5">
                             <div>
-                                <label className="block text-xs text-[var(--text-muted)] mb-1">Category Name</label>
+                                <label className="block text-[10px] font-bold text-[var(--accent-primary)] uppercase tracking-widest mb-1.5 opacity-70">Category Name (TH)</label>
                                 <input
                                     type="text"
                                     value={category.category || ''}
@@ -142,17 +167,16 @@ export default function TechStackForm({ techStack: initialStack, userEmail }: Te
                                     required
                                 />
                             </div>
-                        </div>
-
-                        <div>
-                            <label className="block text-xs text-[var(--text-muted)] mb-1">Tech Items (คั่นด้วย ,)</label>
-                            <input
-                                type="text"
-                                value={category.items?.join(', ') || ''}
-                                onChange={(e) => handleItemsChange(index, e.target.value)}
-                                className="admin-input"
-                                placeholder="Next.js, TypeScript, Tailwind CSS"
-                            />
+                            <div>
+                                <label className="block text-[10px] font-bold text-[var(--accent-secondary)] uppercase tracking-widest mb-1.5 opacity-70">Category Name (EN)</label>
+                                <input
+                                    type="text"
+                                    value={category.category_en || ''}
+                                    onChange={(e) => handleChange(index, 'category_en', e.target.value)}
+                                    className="admin-input"
+                                    placeholder="e.g., Frontend & Design"
+                                />
+                            </div>
                         </div>
                     </div>
                 ))}

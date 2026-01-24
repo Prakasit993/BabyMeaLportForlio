@@ -1,47 +1,78 @@
-# Portfolio - Senior Full-stack AI Engineer
+# 🚀 Professional Portfolio - Full-stack AI Engineer
 
-🚀 **Modern portfolio website** สำหรับ Senior Full-stack AI Engineer | Business Solution Architect
+A high-performance, aesthetically pleasing portfolio built with **Next.js**, **Supabase**, and **Framer Motion**. Featuring a secure Admin Dashboard, multi-language support, and enterprise-grade security.
+
+---
+
+## ✨ Key Features
+
+### 🌐 Multi-language (i18n)
+- Seamless switching between **Thai** and **English**.
+- Perspective-aware content rendering across all sections.
+- URL-agnostic state management via Context API.
+
+### 🔐 Secure Admin Dashboard
+- **Authentication**: Dual-layer security with Password + **Passkeys (WebAuthn)** for biometrics login (Fingerprint/Face ID).
+- **Audit Logs**: Real-time tracking of every change made to the database for transparency and security.
+- **Content Management**: Full CRUD for Profile, Projects, and Tech Stack without touching code.
+
+### 🎨 Premium UI/UX
+- **Glassmorphism Design**: Modern, translucent interface with depth.
+- **Dynamic Animations**: Smooth staggered reveals, mouse-reactive spotlights, and parallax orbs powered by Framer Motion.
+- **Typewriter Effect**: Dynamic Hero headlines to capture attention.
+- **Optimized Performance**: 100/100 Lighthouse-ready architecture.
+
+---
+
+## 🛠️ Technology Stack
+
+- **Frontend**: [Next.js](https://nextjs.org/) (App Router), [React](https://reactjs.org/), [Tailwind CSS](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Backend & Database**: [Supabase](https://supabase.com/) (PostgreSQL + Auth + Storage)
+- **Security**: WebAuthn API for Passkeys
+- **Deployment**: Vercel-ready
+
+---
 
 ## 📁 Project Structure
 
+```text
+babymeal-portfolio/
+├── src/
+│   ├── app/           # Next.js App Router (Routes & Layouts)
+│   ├── components/    # Reusable UI & Admin Components
+│   ├── lib/           # Context, Hooks, Supabase Client & Utils
+│   └── ...
+├── public/            # Static Assets
+└── supabase/          # SQL Migration Scripts
 ```
-BabyMeaLPortfoliO/
-├── index.html     # Main HTML page
-├── styles.css     # Styling with glassmorphism & animations
-├── script.js      # Interactive scroll effects
-└── README.md      # This file
+
+---
+
+## 🚀 Getting Started
+
+### 1. Environment Setup
+Create a `.env.local` file with your credentials:
+```env
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+ADMIN_PASSWORD_HASH=...
 ```
 
-## 🎨 Features
-
-- ✨ Dark mode with gradient backgrounds
-- 🔮 Glassmorphism card effects
-- 📱 Fully responsive (mobile-first)
-- 🎬 Smooth scroll animations
-- 🌐 Thai language support
-
-## 🚀 How to Run
-
-Simply open `index.html` in your browser:
-
+### 2. Installations & Running
 ```bash
-# Option 1: Direct open
-start index.html
-
-# Option 2: Using VS Code Live Server
-# Right-click index.html → "Open with Live Server"
+npm install
+npm run dev
 ```
 
-## 📋 Sections
+### 3. Production Build
+```bash
+npm run build
+```
 
-1. **Hero** - Eye-catching headline with animated gradient
-2. **Introduction** - Thai introduction text
-3. **Portfolio** - 3 featured projects (SmartShip, HelpMe CheckSystem, Multi-tenant)
-4. **Philosophy** - Technical approach & beliefs  
-5. **Tech Stack** - Frontend, Backend, AI, Infrastructure
+---
 
-## 🛠️ Built With
+## 📄 License
 
-- HTML5 + CSS3 (Vanilla)
-- JavaScript (ES6+)
-- Google Fonts (Inter, Noto Sans Thai, Outfit)
+Built with ❤️ for professional branding. All rights reserved.
