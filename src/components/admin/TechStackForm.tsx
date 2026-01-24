@@ -132,9 +132,9 @@ export default function TechStackForm({ techStack: initialStack, userEmail }: Te
                             )}
                         </div>
 
-                        <div className="grid md:grid-cols-3 gap-6 mb-6">
-                            <div>
-                                <label className="block text-xs font-bold text-[var(--accent-primary)] uppercase tracking-widest mb-2">Category Icon</label>
+                        <div className="grid md:grid-cols-3 gap-8 mb-8 text-left">
+                            <div className="admin-grid-item">
+                                <label className="admin-label">Icon</label>
                                 <input
                                     type="text"
                                     value={category.icon || ''}
@@ -143,8 +143,8 @@ export default function TechStackForm({ techStack: initialStack, userEmail }: Te
                                     placeholder="🎨"
                                 />
                             </div>
-                            <div className="md:col-span-2">
-                                <label className="block text-xs font-bold text-[var(--text-muted)] uppercase tracking-widest mb-2">Tech Items (คั่นด้วย ,)</label>
+                            <div className="md:col-span-2 admin-grid-item text-left">
+                                <label className="admin-label">Tech Items (คั่นด้วย ,)</label>
                                 <input
                                     type="text"
                                     value={category.items?.join(', ') || ''}
@@ -155,9 +155,9 @@ export default function TechStackForm({ techStack: initialStack, userEmail }: Te
                             </div>
                         </div>
 
-                        <div className="grid md:grid-cols-2 gap-6 pt-6 border-t border-white/5">
-                            <div>
-                                <label className="block text-[10px] font-bold text-[var(--accent-primary)] uppercase tracking-widest mb-1.5 opacity-70">Category Name (TH)</label>
+                        <div className="grid md:grid-cols-2 gap-8 pt-8 border-t border-white/5">
+                            <div className="admin-grid-item">
+                                <label className="admin-label">Category Name (TH)</label>
                                 <input
                                     type="text"
                                     value={category.category || ''}
@@ -167,8 +167,8 @@ export default function TechStackForm({ techStack: initialStack, userEmail }: Te
                                     required
                                 />
                             </div>
-                            <div>
-                                <label className="block text-[10px] font-bold text-[var(--accent-secondary)] uppercase tracking-widest mb-1.5 opacity-70">Category Name (EN)</label>
+                            <div className="admin-grid-item">
+                                <label className="admin-label">Category Name (EN)</label>
                                 <input
                                     type="text"
                                     value={category.category_en || ''}

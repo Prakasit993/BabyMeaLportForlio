@@ -166,10 +166,10 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
                         </div>
 
                         {/* Media Upload Section */}
-                        <div className="grid md:grid-cols-2 gap-6 mb-8 p-6 bg-white/5 rounded-2xl border border-white/5">
-                            <div className="space-y-4">
-                                <label className="block text-xs font-bold text-[var(--accent-primary)] uppercase tracking-widest">Project Image / Thumbnail</label>
-                                <div className="flex items-center gap-4">
+                        <div className="grid md:grid-cols-2 gap-8 mb-8 p-8 bg-white/5 rounded-2xl border border-white/5">
+                            <div className="admin-grid-item">
+                                <label className="admin-label text-[var(--accent-primary)]">Project Image / Thumbnail</label>
+                                <div className="flex items-center gap-6">
                                     <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-white/5 border border-dashed border-white/20 flex items-center justify-center">
                                         {project.image_url ? (
                                             <img src={project.image_url} alt="Project" className="w-full h-full object-cover" />
@@ -195,9 +195,9 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
                                 </div>
                             </div>
 
-                            <div className="space-y-4">
-                                <label className="block text-xs font-bold text-[var(--accent-secondary)] uppercase tracking-widest">Project Video (Optional)</label>
-                                <div className="flex items-center gap-4">
+                            <div className="admin-grid-item">
+                                <label className="admin-label text-[var(--accent-secondary)]">Project Video (Optional)</label>
+                                <div className="flex items-center gap-6">
                                     <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-white/5 border border-dashed border-white/20 flex items-center justify-center">
                                         {project.video_url ? (
                                             <span className="text-2xl">📹</span>
@@ -224,9 +224,9 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
                             </div>
                         </div>
 
-                        <div className="grid md:grid-cols-3 gap-6 mb-8">
-                            <div>
-                                <label className="block text-xs font-bold text-[var(--accent-primary)] uppercase tracking-widest mb-2">Icon (Emoji)</label>
+                        <div className="grid md:grid-cols-3 gap-8 mb-10">
+                            <div className="admin-grid-item">
+                                <label className="admin-label">Icon (Emoji)</label>
                                 <input
                                     type="text"
                                     value={project.icon || ''}
@@ -235,8 +235,8 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
                                     placeholder="🚀"
                                 />
                             </div>
-                            <div className="md:col-span-2">
-                                <label className="block text-xs font-bold text-[var(--text-muted)] uppercase tracking-widest mb-2">Link URL</label>
+                            <div className="md:col-span-2 admin-grid-item">
+                                <label className="admin-label">Link URL / View Details</label>
                                 <input
                                     type="url"
                                     value={project.link_url || ''}
@@ -247,12 +247,12 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
                             </div>
                         </div>
 
-                        <div className="grid md:grid-cols-2 gap-8 mb-8 pt-6 border-t border-white/5">
+                        <div className="grid md:grid-cols-2 gap-10 mb-8 pt-8 border-t border-white/5">
                             {/* Thai Content */}
-                            <div className="space-y-4">
-                                <h4 className="text-xs font-bold text-[var(--accent-primary)] uppercase tracking-widest mb-4">🇹🇭 Thai Content</h4>
-                                <div>
-                                    <label className="block text-[10px] text-[var(--text-muted)] uppercase mb-1.5">Project Title (TH)</label>
+                            <div className="space-y-6">
+                                <h4 className="admin-section-header text-[var(--accent-primary)]">🇹🇭 Thai Content</h4>
+                                <div className="admin-grid-item">
+                                    <label className="admin-label">Project Title (TH)</label>
                                     <input
                                         type="text"
                                         value={project.title || ''}
@@ -262,8 +262,8 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
                                         required
                                     />
                                 </div>
-                                <div>
-                                    <label className="block text-[10px] text-[var(--text-muted)] uppercase mb-1.5">Subtitle (TH)</label>
+                                <div className="admin-grid-item">
+                                    <label className="admin-label">Subtitle (TH)</label>
                                     <input
                                         type="text"
                                         value={project.subtitle || ''}
@@ -272,23 +272,23 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
                                         placeholder="คำอธิบายสั้นๆ ภาษาไทย"
                                     />
                                 </div>
-                                <div>
-                                    <label className="block text-[10px] text-[var(--text-muted)] uppercase mb-1.5">Description (TH)</label>
+                                <div className="admin-grid-item">
+                                    <label className="admin-label">Description (TH)</label>
                                     <textarea
                                         value={project.description || ''}
                                         onChange={(e) => handleChange(index, 'description', e.target.value)}
                                         className="admin-input resize-none"
-                                        rows={4}
+                                        rows={6}
                                         placeholder="รายละเอียดโปรเจคภาษาไทย..."
                                     />
                                 </div>
                             </div>
 
                             {/* English Content */}
-                            <div className="space-y-4">
-                                <h4 className="text-xs font-bold text-[var(--accent-secondary)] uppercase tracking-widest mb-4">🇺🇸 English Content</h4>
-                                <div>
-                                    <label className="block text-[10px] text-[var(--text-muted)] uppercase mb-1.5">Project Title (EN)</label>
+                            <div className="space-y-6">
+                                <h4 className="admin-section-header text-[var(--accent-secondary)]">🇺🇸 English Content</h4>
+                                <div className="admin-grid-item">
+                                    <label className="admin-label">Project Title (EN)</label>
                                     <input
                                         type="text"
                                         value={project.title_en || ''}
@@ -297,8 +297,8 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
                                         placeholder="Project Title in English"
                                     />
                                 </div>
-                                <div>
-                                    <label className="block text-[10px] text-[var(--text-muted)] uppercase mb-1.5">Subtitle (EN)</label>
+                                <div className="admin-grid-item">
+                                    <label className="admin-label">Subtitle (EN)</label>
                                     <input
                                         type="text"
                                         value={project.subtitle_en || ''}
@@ -307,21 +307,21 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
                                         placeholder="Short subtitle in English"
                                     />
                                 </div>
-                                <div>
-                                    <label className="block text-[10px] text-[var(--text-muted)] uppercase mb-1.5">Description (EN)</label>
+                                <div className="admin-grid-item">
+                                    <label className="admin-label">Description (EN)</label>
                                     <textarea
                                         value={project.description_en || ''}
                                         onChange={(e) => handleChange(index, 'description_en', e.target.value)}
                                         className="admin-input resize-none"
-                                        rows={4}
+                                        rows={6}
                                         placeholder="Project details in English..."
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="pt-6 border-t border-white/5">
-                            <label className="block text-xs font-bold text-[var(--text-muted)] uppercase tracking-widest mb-2">Tags (คั่นด้วย ,)</label>
+                        <div className="pt-8 border-t border-white/5 admin-grid-item">
+                            <label className="admin-label">Tags (คั่นด้วย ,)</label>
                             <input
                                 type="text"
                                 value={project.tags?.join(', ') || ''}

@@ -102,7 +102,7 @@ const dictionary: Record<Locale, Record<string, string>> = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-    const [locale, setLocaleState] = useState<Locale>('th')
+    const [locale, setLocaleState] = useState<Locale>('en')
 
     useEffect(() => {
         const savedLocale = localStorage.getItem('portfolio_locale') as Locale

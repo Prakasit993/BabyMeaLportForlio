@@ -17,7 +17,7 @@ export default function Philosophy({ profile }: PhilosophyProps) {
 
     const philosophy = locale === 'en'
         ? (profile?.philosophy_en || profile?.philosophy || defaultPhilosophy)
-        : (profile?.philosophy || defaultPhilosophy)
+        : (profile?.philosophy || profile?.philosophy_en || defaultPhilosophy)
 
     return (
         <section className="py-24 bg-[var(--bg-secondary)]" id="philosophy">

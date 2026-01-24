@@ -152,13 +152,13 @@ export default function Portfolio({ projects }: PortfolioProps) {
 
                                     <div className="flex-grow">
                                         <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover:text-[var(--accent-primary)] transition-colors duration-300 antialiased tracking-tight">
-                                            {locale === 'en' ? (project.title_en || project.title) : project.title}
+                                            {locale === 'en' ? (project.title_en || project.title) : (project.title || project.title_en)}
                                         </h3>
                                         <p className="text-[var(--accent-tertiary)] text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase mb-6 opacity-90">
-                                            {locale === 'en' ? (project.subtitle_en || project.subtitle) : project.subtitle}
+                                            {locale === 'en' ? (project.subtitle_en || project.subtitle) : (project.subtitle || project.subtitle_en)}
                                         </p>
-                                        <p className="text-[var(--text-secondary)] leading-[1.8] mb-8 line-clamp-3 font-normal text-sm md:text-base">
-                                            {locale === 'en' ? (project.description_en || project.description) : project.description}
+                                        <p className="text-[var(--text-secondary)] leading-[1.8] mb-8 line-clamp-3 font-normal text-sm md:text-base group-hover:text-[var(--text-primary)] transition-colors">
+                                            {locale === 'en' ? (project.description_en || project.description) : (project.description || project.description_en)}
                                         </p>
                                     </div>
 

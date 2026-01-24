@@ -115,7 +115,7 @@ export default function TechStack({ techStack }: TechStackProps) {
                                     {category.icon}
                                 </div>
                                 <h3 className="font-bold text-xl text-[var(--text-primary)] tracking-tight">
-                                    {locale === 'en' ? (category.category_en || category.category) : category.category}
+                                    {locale === 'en' ? (category.category_en || category.category) : (category.category || category.category_en)}
                                 </h3>
                             </div>
 

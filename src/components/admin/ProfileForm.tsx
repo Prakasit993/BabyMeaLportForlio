@@ -170,7 +170,7 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
 
             {/* Avatar */}
             <div>
-                <label className="block text-sm font-medium mb-3">รูปโปรไฟล์</label>
+                <label className="admin-label">รูปโปรไฟล์</label>
                 <div className="flex items-center gap-6">
                     <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-[var(--border-glass)] bg-[var(--bg-glass)]">
                         {avatarPreview ? (
@@ -199,11 +199,11 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
             </div>
 
             {/* Name */}
-            <div className="grid md:grid-cols-2 gap-6 p-6 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl">
-                <div className="space-y-4">
-                    <h3 className="text-sm font-bold text-[var(--accent-primary)] uppercase tracking-wider">{t('admin.content.thai')}</h3>
-                    <div>
-                        <label className="block text-xs font-medium mb-1.5 opacity-70">ชื่อ-นามสกุล (TH)</label>
+            <div className="grid md:grid-cols-2 gap-8 p-8 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl">
+                <div className="space-y-6">
+                    <h3 className="admin-section-header text-[var(--accent-primary)]">{t('admin.content.thai')}</h3>
+                    <div className="admin-grid-item">
+                        <label className="admin-label">ชื่อ-นามสกุล (TH)</label>
                         <input
                             type="text"
                             name="full_name"
@@ -214,10 +214,10 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
                         />
                     </div>
                 </div>
-                <div className="space-y-4">
-                    <h3 className="text-sm font-bold text-[var(--accent-secondary)] uppercase tracking-wider">{t('admin.content.english')}</h3>
-                    <div>
-                        <label className="block text-xs font-medium mb-1.5 opacity-70">Full Name (EN)</label>
+                <div className="space-y-6">
+                    <h3 className="admin-section-header text-[var(--accent-secondary)]">{t('admin.content.english')}</h3>
+                    <div className="admin-grid-item">
+                        <label className="admin-label">Full Name (EN)</label>
                         <input
                             type="text"
                             name="full_name_en"
@@ -231,8 +231,8 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
             </div>
 
             {/* Email (Generic) */}
-            <div className="p-6 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl">
-                <label className="block text-sm font-medium mb-2">Email</label>
+            <div className="p-8 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl">
+                <label className="admin-label">Email Address</label>
                 <input
                     type="email"
                     name="email"
@@ -245,10 +245,10 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
 
             {/* Headline & Tagline */}
             <div className="grid md:grid-cols-2 gap-6 p-6 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl">
-                <div className="space-y-6">
-                    <h3 className="text-sm font-bold text-[var(--accent-primary)] uppercase tracking-wider">{t('admin.lang.thai')}</h3>
-                    <div>
-                        <label className="block text-xs font-medium mb-1.5 opacity-70">Headline (TH)</label>
+                <div className="space-y-8">
+                    <h3 className="admin-section-header text-[var(--accent-primary)]">{t('admin.lang.thai')}</h3>
+                    <div className="admin-grid-item">
+                        <label className="admin-label">Headline (TH)</label>
                         <input
                             type="text"
                             name="headline"
@@ -258,8 +258,8 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
                             placeholder="Senior Full-stack AI Engineer"
                         />
                     </div>
-                    <div>
-                        <label className="block text-xs font-medium mb-1.5 opacity-70">Tagline (TH)</label>
+                    <div className="admin-grid-item">
+                        <label className="admin-label">Tagline (TH)</label>
                         <input
                             type="text"
                             name="tagline"
@@ -270,10 +270,10 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
                         />
                     </div>
                 </div>
-                <div className="space-y-6">
-                    <h3 className="text-sm font-bold text-[var(--accent-secondary)] uppercase tracking-wider">{t('admin.lang.english')}</h3>
-                    <div>
-                        <label className="block text-xs font-medium mb-1.5 opacity-70">Headline (EN)</label>
+                <div className="space-y-8">
+                    <h3 className="admin-section-header text-[var(--accent-secondary)]">{t('admin.lang.english')}</h3>
+                    <div className="admin-grid-item">
+                        <label className="admin-label">Headline (EN)</label>
                         <input
                             type="text"
                             name="headline_en"
@@ -283,8 +283,8 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
                             placeholder="Senior Full-stack AI Engineer"
                         />
                     </div>
-                    <div>
-                        <label className="block text-xs font-medium mb-1.5 opacity-70">Tagline (EN)</label>
+                    <div className="admin-grid-item">
+                        <label className="admin-label">Tagline (EN)</label>
                         <input
                             type="text"
                             name="tagline_en"
@@ -298,25 +298,25 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
             </div>
 
             {/* Introduction */}
-            <div className="grid md:grid-cols-2 gap-6 p-6 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl">
-                <div>
-                    <label className="block text-sm font-medium mb-2">{t('nav.about')} (TH)</label>
+            <div className="grid md:grid-cols-2 gap-8 p-8 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl">
+                <div className="admin-grid-item">
+                    <label className="admin-label">{t('nav.about')} (TH)</label>
                     <textarea
                         name="introduction"
                         value={formData.introduction}
                         onChange={handleChange}
-                        rows={6}
+                        rows={8}
                         className="admin-input resize-none"
                         placeholder="..."
                     />
                 </div>
-                <div>
-                    <label className="block text-sm font-medium mb-2">Introduction (EN)</label>
+                <div className="admin-grid-item">
+                    <label className="admin-label">Introduction (EN)</label>
                     <textarea
                         name="introduction_en"
                         value={formData.introduction_en}
                         onChange={handleChange}
-                        rows={6}
+                        rows={8}
                         className="admin-input resize-none"
                         placeholder="..."
                     />
@@ -324,25 +324,25 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
             </div>
 
             {/* Philosophy */}
-            <div className="grid md:grid-cols-2 gap-6 p-6 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl">
-                <div>
-                    <label className="block text-sm font-medium mb-2">Philosophy (TH)</label>
+            <div className="grid md:grid-cols-2 gap-8 p-8 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl">
+                <div className="admin-grid-item">
+                    <label className="admin-label">Philosophy (TH)</label>
                     <textarea
                         name="philosophy"
                         value={formData.philosophy}
                         onChange={handleChange}
-                        rows={4}
+                        rows={6}
                         className="admin-input resize-none"
                         placeholder="..."
                     />
                 </div>
-                <div>
-                    <label className="block text-sm font-medium mb-2">Philosophy (EN)</label>
+                <div className="admin-grid-item">
+                    <label className="admin-label">Philosophy (EN)</label>
                     <textarea
                         name="philosophy_en"
                         value={formData.philosophy_en}
                         onChange={handleChange}
-                        rows={4}
+                        rows={6}
                         className="admin-input resize-none"
                         placeholder="..."
                     />
@@ -350,11 +350,11 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
             </div>
 
             {/* Social Links */}
-            <div>
-                <label className="block text-sm font-medium mb-4">Social Links</label>
-                <div className="grid md:grid-cols-3 gap-4">
-                    <div>
-                        <label className="block text-xs text-[var(--text-muted)] mb-1">GitHub</label>
+            <div className="space-y-6">
+                <label className="admin-label text-lg">Social Connections</label>
+                <div className="grid md:grid-cols-3 gap-6">
+                    <div className="admin-grid-item">
+                        <label className="admin-label opacity-70">GitHub URL</label>
                         <input
                             type="url"
                             name="github"
@@ -364,8 +364,8 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
                             placeholder="https://github.com/..."
                         />
                     </div>
-                    <div>
-                        <label className="block text-xs text-[var(--text-muted)] mb-1">LinkedIn</label>
+                    <div className="admin-grid-item">
+                        <label className="admin-label opacity-70">LinkedIn URL</label>
                         <input
                             type="url"
                             name="linkedin"
@@ -375,8 +375,8 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
                             placeholder="https://linkedin.com/in/..."
                         />
                     </div>
-                    <div>
-                        <label className="block text-xs text-[var(--text-muted)] mb-1">Line ID</label>
+                    <div className="admin-grid-item">
+                        <label className="admin-label opacity-70">Line ID / Contact</label>
                         <input
                             type="text"
                             name="line"

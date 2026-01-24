@@ -14,14 +14,14 @@ export default function Hero({ profile }: HeroProps) {
     const { locale, t } = useLanguage()
     const [displayText, setDisplayText] = useState('')
 
-    // Choose correct content based on locale
+    // Choose correct content based on locale with robust fallback
     const headline = locale === 'en'
         ? (profile?.headline_en || profile?.headline || 'Senior Full-stack AI Engineer')
-        : (profile?.headline || 'Senior Full-stack AI Engineer')
+        : (profile?.headline || profile?.headline_en || 'Senior Full-stack AI Engineer')
 
     const tagline = locale === 'en'
         ? (profile?.tagline_en || profile?.tagline || 'Bridging Complex Business Logic with Scalable AI Automation')
-        : (profile?.tagline || 'Bridging Complex Business Logic with Scalable AI Automation')
+        : (profile?.tagline || profile?.tagline_en || 'Bridging Complex Business Logic with Scalable AI Automation')
 
     const containerRef = useRef<HTMLDivElement>(null)
 

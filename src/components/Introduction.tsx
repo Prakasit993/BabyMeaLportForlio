@@ -23,7 +23,7 @@ Next.js, AI และ Automation`
 
     const introduction = locale === 'en'
         ? (profile?.introduction_en || profile?.introduction || defaultIntro)
-        : (profile?.introduction || defaultIntro)
+        : (profile?.introduction || profile?.introduction_en || defaultIntro)
 
     return (
         <section className="py-32 bg-[var(--bg-secondary)] relative overflow-hidden" id="introduction">
