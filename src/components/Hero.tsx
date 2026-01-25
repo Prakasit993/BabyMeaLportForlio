@@ -112,10 +112,10 @@ export default function Hero({ profile }: HeroProps) {
             </motion.div>
 
             {/* Title with Typewriter */}
-            <div className="min-h-[80px] sm:min-h-[100px] mb-8 relative z-20">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold gradient-text leading-[1.3] tracking-tight px-4">
+            <div className="min-h-[100px] sm:min-h-[120px] mb-8 relative z-20">
+                <h1 className="text-5xl sm:text-6xl md:text-8xl font-extrabold gradient-text leading-[1.1] tracking-tight px-4 antialiased">
                     {displayText}
-                    <span className="animate-pulse border-r-4 border-[var(--accent-primary)]">&nbsp;</span>
+                    <span className="animate-pulse border-r-8 border-[var(--accent-primary)] opacity-50">&nbsp;</span>
                 </h1>
             </div>
 
@@ -124,7 +124,7 @@ export default function Hero({ profile }: HeroProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.8 }}
-                className="text-xl sm:text-2xl md:text-3xl text-[var(--text-secondary)] mb-10 font-medium tracking-wide relative z-20"
+                className="text-2xl sm:text-3xl md:text-4xl text-[var(--text-secondary)] mb-20 font-extralight tracking-tight relative z-20"
             >
                 {profile?.full_name || 'Business Solution Architect'}
             </motion.p>
@@ -134,11 +134,11 @@ export default function Hero({ profile }: HeroProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 1.2 }}
-                className="relative z-20 max-w-2xl mx-auto px-4"
+                className="relative z-20 max-w-2xl mx-auto px-4 mb-20"
             >
-                <div className="px-6 py-6 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl backdrop-blur-2xl shadow-2xl relative overflow-hidden group">
+                <div className="px-10 py-10 bg-[var(--bg-glass)] border border-[var(--border-glass)] rounded-2xl backdrop-blur-2xl shadow-2xl relative overflow-hidden group">
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--accent-primary)]/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                    <p className="text-base sm:text-lg md:text-xl text-[var(--accent-tertiary)] italic leading-relaxed">
+                    <p className="text-xl sm:text-2xl md:text-3xl text-[var(--accent-tertiary)] leading-relaxed">
                         &quot;{tagline}&quot;
                     </p>
                 </div>
@@ -150,7 +150,7 @@ export default function Hero({ profile }: HeroProps) {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 1.5 }}
-                    className="flex gap-6 mt-12 relative z-20"
+                    className="flex gap-14 mt-24 relative z-20"
                 >
                     {profile.social_links.github && (
                         <a

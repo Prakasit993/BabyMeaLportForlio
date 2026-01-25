@@ -86,12 +86,10 @@ export default function TechStack({ techStack }: TechStackProps) {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="section-header text-center mb-20"
+                    className="section-header"
                 >
-                    <span className="inline-block px-4 py-1.5 bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20 rounded-full mb-4">
-                        <span className="text-[var(--accent-primary)] text-xs font-bold uppercase tracking-widest">Tech Stack</span>
-                    </span>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text italic antialiased">{t('tech.title')}</h2>
+                    <div className="section-label">Tech Stack</div>
+                    <h2 className="section-title">{t('tech.title')}</h2>
                 </motion.div>
 
                 <motion.div

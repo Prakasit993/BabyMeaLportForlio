@@ -88,7 +88,7 @@ export default function AuditLog() {
                         <tbody className="divide-y divide-white/5">
                             {logs.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="px-6 py-12 text-center text-[var(--text-muted)] text-sm italic">
+                                    <td colSpan={5} className="px-6 py-12 text-center text-[var(--text-muted)] text-sm">
                                         {locale === 'th' ? 'ไม่พบข้อมูลการใช้งาน' : 'No activity logs found'}
                                     </td>
                                 </tr>
@@ -116,7 +116,7 @@ export default function AuditLog() {
                                         </td>
                                         <td className="px-6 py-4 text-xs">
                                             <details className="cursor-pointer group">
-                                                <summary className="text-[var(--accent-primary)] hover:underline opacity-80 group-open:opacity-100 italic">
+                                                <summary className="text-[var(--accent-primary)] hover:underline opacity-80 group-open:opacity-100">
                                                     {locale === 'th' ? 'ดูรายละเอียด' : 'View Details'}
                                                 </summary>
                                                 <div className="mt-2 p-3 rounded-lg bg-black/40 border border-white/5 overflow-x-auto">
@@ -137,7 +137,7 @@ export default function AuditLog() {
                 </div>
             </div>
 
-            <p className="text-[10px] text-[var(--text-muted)] italic opacity-60">
+            <p className="text-[10px] text-[var(--text-muted)] opacity-60">
                 * {locale === 'th'
                     ? 'ระบบจะบันทึก Log อัตโนมัติทุกครั้งที่มีการเปลี่ยนเปลงข้อมูลที่ระดับ Database'
                     : 'System automatically logs every change made at the database level.'}

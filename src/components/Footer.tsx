@@ -48,15 +48,15 @@ export default function Footer({ profile }: FooterProps) {
 
                     {/* Column 2: Quick Links */}
                     <div className="flex flex-col gap-4">
-                        <h4 className="text-lg font-semibold text-[var(--text-primary)]">
+                        <h4 className="text-sm font-bold text-[var(--text-primary)] uppercase tracking-widest mb-2 opacity-80">
                             {t('footer.menu')}
                         </h4>
-                        <nav className="flex flex-col gap-2">
+                        <nav className="flex flex-col gap-3">
                             {navLinks.map((link, index) => (
                                 <a
                                     key={index}
                                     href={link.href}
-                                    className="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors text-sm w-fit"
+                                    className="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors text-sm w-fit font-light"
                                 >
                                     {link.label}
                                 </a>
@@ -66,7 +66,7 @@ export default function Footer({ profile }: FooterProps) {
 
                     {/* Column 3: Contact & Social */}
                     <div className="flex flex-col gap-4">
-                        <h4 className="text-lg font-semibold text-[var(--text-primary)]">
+                        <h4 className="text-sm font-bold text-[var(--text-primary)] uppercase tracking-widest mb-2 opacity-80">
                             {t('footer.contact')}
                         </h4>
 

@@ -125,7 +125,7 @@ export default function PasskeySettings() {
                         {loading ? t('admin.loading') : `➕ ${locale === 'th' ? 'เพิ่ม Passkey' : 'Add Passkey'}`}
                     </button>
                 </div>
-                <p className="text-[10px] text-[var(--text-muted)] mt-4 italic opacity-60">
+                <p className="text-[10px] text-[var(--text-muted)] mt-4 opacity-60">
                     {locale === 'th'
                         ? 'คลิกเพิ่มแล้วใช้ลายนิ้วมือหรือ Face ID เพื่อยืนยัน'
                         : 'Click add and use your fingerprint or Face ID to confirm.'}
@@ -139,7 +139,7 @@ export default function PasskeySettings() {
                 </h4>
                 {passkeys.length === 0 ? (
                     <div className="p-8 bg-black/20 border border-dashed border-white/10 rounded-2xl text-center">
-                        <p className="text-sm text-[var(--text-muted)] italic">
+                        <p className="text-sm text-[var(--text-muted)]">
                             {locale === 'th' ? 'ยังไม่มี Passkey ที่ลงทะเบียน' : 'No passkeys registered yet.'}
                         </p>
                     </div>

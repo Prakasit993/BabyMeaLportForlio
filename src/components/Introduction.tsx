@@ -37,13 +37,13 @@ Next.js, AI และ Automation`
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="lg:w-1/3"
+                        className="lg:w-1/3 text-center lg:text-left"
                     >
-                        <div className="inline-block px-4 py-1.5 bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20 rounded-full mb-6">
-                            <span className="text-[var(--accent-primary)] text-xs font-bold uppercase tracking-widest">{t('about.label')}</span>
+                        <div className="section-label">
+                            {t('about.label')}
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">{t('about.title')}</h2>
-                        <div className="w-20 h-1.5 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-full"></div>
+                        <h2 className="section-title text-left lg:text-left !mb-8">{t('about.title')}</h2>
+                        <div className="w-20 h-1 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-full mx-auto lg:ml-0 opacity-50"></div>
                     </motion.div>
 
                     <motion.div
@@ -56,11 +56,11 @@ Next.js, AI และ Automation`
                         <div className="glass-card p-8 md:p-12 relative group">
                             <div className="absolute -top-4 -left-4 w-12 h-12 bg-[var(--accent-primary)]/20 rounded-xl blur-xl group-hover:bg-[var(--accent-primary)]/40 transition-colors"></div>
 
-                            <p className="text-lg md:text-xl leading-[1.8] text-[var(--text-secondary)] font-medium">
+                            <p className="text-lg md:text-xl leading-[2] text-[var(--text-secondary)] font-normal">
                                 {introduction}
                             </p>
 
-                            <div className="mt-10 flex flex-wrap gap-4">
+                            <div className="mt-12 flex flex-wrap gap-4">
                                 <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-sm text-[var(--accent-tertiary)] hover:bg-white/10 transition-colors">
                                     <span>🎯</span> {locale === 'en' ? 'Problem Solver' : 'นักแก้ปัญหา'}
                                 </div>

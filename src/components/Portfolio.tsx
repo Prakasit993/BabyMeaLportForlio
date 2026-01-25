@@ -89,16 +89,27 @@ export default function Portfolio({ projects }: PortfolioProps) {
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="section-header max-w-3xl mx-auto text-center mb-20"
+                    transition={{ duration: 0.8 }}
+                    className="section-header max-w-4xl mx-auto"
                 >
-                    <span className="inline-block px-4 py-1.5 bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20 rounded-full mb-4">
-                        <span className="text-[var(--accent-primary)] text-xs font-bold uppercase tracking-widest">Portfolio</span>
-                    </span>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">{t('portfolio.title')}</h2>
-                    <p className="text-[var(--text-secondary)] text-lg">
-                        {t('portfolio.description')}
-                    </p>
+                    {/* Decorative Background Element for Header */}
+                    <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-40 h-40 bg-[var(--accent-primary)]/5 blur-[80px] rounded-full -z-10"></div>
+
+                    <div className="section-label">
+                        {t('portfolio.label') || 'Portfolio'}
+                    </div>
+
+                    <h2 className="section-title !mb-10">
+                        {t('portfolio.title')}
+                    </h2>
+
+                    <div className="flex flex-col items-center gap-8">
+                        <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[var(--accent-primary)] to-transparent rounded-full opacity-30"></div>
+
+                        <p className="section-description">
+                            {t('portfolio.description')}
+                        </p>
+                    </div>
                 </motion.div>
 
                 <motion.div
@@ -151,18 +162,18 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                     </div>
 
                                     <div className="flex-grow w-full flex flex-col justify-center items-center">
-                                        <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover:text-[var(--accent-primary)] transition-colors duration-300 antialiased tracking-tight text-center">
+                                        <h3 className="text-2xl md:text-3xl font-bold mb-6 group-hover:text-[var(--accent-primary)] transition-colors duration-300 antialiased tracking-tight text-center">
                                             {locale === 'en' ? (project.title_en || project.title) : (project.title || project.title_en)}
                                         </h3>
-                                        <p className="text-[var(--accent-tertiary)] text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase mb-6 opacity-90 text-center">
+                                        <p className="text-[var(--accent-tertiary)] text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase mb-10 opacity-90 text-center">
                                             {locale === 'en' ? (project.subtitle_en || project.subtitle) : (project.subtitle || project.subtitle_en)}
                                         </p>
-                                        <p className="text-[var(--text-secondary)] leading-[1.8] mb-8 line-clamp-6 font-normal text-sm md:text-base group-hover:text-[var(--text-primary)] transition-colors text-center">
+                                        <p className="text-[var(--text-secondary)] leading-[1.9] mb-12 line-clamp-6 font-normal text-sm md:text-base group-hover:text-[var(--text-primary)] transition-colors text-center">
                                             {locale === 'en' ? (project.description_en || project.description) : (project.description || project.description_en)}
                                         </p>
                                     </div>
 
-                                    <div className="mt-auto space-y-6 w-full">
+                                    <div className="mt-auto space-y-8 w-full">
                                         <div className="flex flex-wrap gap-2 justify-center">
                                             {project.tags.map((tag) => (
                                                 <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] md:text-xs font-semibold text-[var(--text-secondary)] group-hover:border-[var(--accent-primary)]/30 group-hover:text-[var(--text-primary)] transition-all">

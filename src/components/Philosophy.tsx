@@ -29,7 +29,7 @@ export default function Philosophy({ profile }: PhilosophyProps) {
                     transition={{ duration: 0.6 }}
                     className="section-header"
                 >
-                    <span className="section-label">Philosophy</span>
+                    <div className="section-label">Philosophy</div>
                     <h2 className="section-title">{locale === 'en' ? 'Core Philosophy' : 'แนวคิดในการพัฒนา'}</h2>
                 </motion.div>
 
