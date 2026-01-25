@@ -62,7 +62,7 @@ export default async function HomePage() {
       <Portfolio projects={projects} />
       <Philosophy profile={profile} />
       <TechStack techStack={techStack} />
-      <Footer />
+      <Footer profile={profile} />
     </main>
   )
 }
