@@ -123,9 +123,9 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                 {...wrapperProps}
                                 className="glass-card p-1 group flex flex-col h-full overflow-hidden cursor-pointer no-underline"
                             >
-                                <div className="p-8 md:p-10 flex flex-col h-full bg-[var(--bg-secondary)]/40 rounded-[19px] border border-white/5 group-hover:bg-transparent transition-colors duration-500">
+                                <div className="p-8 md:p-10 flex flex-col h-full bg-[var(--bg-secondary)]/40 rounded-[19px] border border-white/5 group-hover:bg-transparent transition-colors duration-500 items-center text-center">
                                     {/* Media or Icon with spotlight */}
-                                    <div className="relative mb-8 w-full aspect-video rounded-2xl overflow-hidden border border-white/10 group-hover:border-[var(--accent-primary)]/30 transition-colors duration-500 bg-white/5">
+                                    <div className="relative mb-8 w-full aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 group-hover:border-[var(--accent-primary)]/30 transition-colors duration-500 bg-white/5">
                                         <div className="absolute inset-0 bg-[var(--accent-primary)]/5 blur-2xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
                                         {project.video_url ? (
@@ -150,20 +150,20 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                         <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                     </div>
 
-                                    <div className="flex-grow">
-                                        <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover:text-[var(--accent-primary)] transition-colors duration-300 antialiased tracking-tight">
+                                    <div className="flex-grow w-full flex flex-col justify-center items-center">
+                                        <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover:text-[var(--accent-primary)] transition-colors duration-300 antialiased tracking-tight text-center">
                                             {locale === 'en' ? (project.title_en || project.title) : (project.title || project.title_en)}
                                         </h3>
-                                        <p className="text-[var(--accent-tertiary)] text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase mb-6 opacity-90">
+                                        <p className="text-[var(--accent-tertiary)] text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase mb-6 opacity-90 text-center">
                                             {locale === 'en' ? (project.subtitle_en || project.subtitle) : (project.subtitle || project.subtitle_en)}
                                         </p>
-                                        <p className="text-[var(--text-secondary)] leading-[1.8] mb-8 line-clamp-3 font-normal text-sm md:text-base group-hover:text-[var(--text-primary)] transition-colors">
+                                        <p className="text-[var(--text-secondary)] leading-[1.8] mb-8 line-clamp-6 font-normal text-sm md:text-base group-hover:text-[var(--text-primary)] transition-colors text-center">
                                             {locale === 'en' ? (project.description_en || project.description) : (project.description || project.description_en)}
                                         </p>
                                     </div>
 
                                     <div className="mt-auto space-y-6 w-full">
-                                        <div className="flex flex-wrap gap-2">
+                                        <div className="flex flex-wrap gap-2 justify-center">
                                             {project.tags.map((tag) => (
                                                 <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] md:text-xs font-semibold text-[var(--text-secondary)] group-hover:border-[var(--accent-primary)]/30 group-hover:text-[var(--text-primary)] transition-all">
                                                     {tag}
@@ -172,7 +172,7 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                         </div>
 
                                         {project.link_url && (
-                                            <div className="inline-flex items-center gap-3 text-sm font-bold text-[var(--accent-primary)] group-hover:text-[var(--accent-secondary)] transition-colors group/link pt-2">
+                                            <div className="inline-flex items-center gap-3 text-sm font-bold text-[var(--accent-primary)] group-hover:text-[var(--accent-secondary)] transition-colors group/link pt-2 justify-center">
                                                 {t('portfolio.view_details')}
                                                 <svg className="w-5 h-5 translate-x-0 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
