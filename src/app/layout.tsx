@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Senior Full-stack AI Engineer | Business Solution Architect",
-  description: "Portfolio ของ Senior Full-stack AI Engineer | Business Solution Architect - ผู้เชี่ยวชาญด้าน Next.js, AI และ Automation",
+  title: "System Engineer / Automation Engineer | Business Solution Architect",
+  description: "Portfolio ของ System Engineer / Automation Engineer | Business Solution Architect - ผู้เชี่ยวชาญด้าน Next.js, AI และ Automation",
   keywords: "Full-stack Developer, AI Engineer, Next.js, Supabase, n8n, Business Automation, Thailand",
 };
 

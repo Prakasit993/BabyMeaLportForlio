@@ -16,8 +16,8 @@ export default function Hero({ profile }: HeroProps) {
 
     // Choose correct content based on locale with robust fallback
     const headline = locale === 'en'
-        ? (profile?.headline_en || profile?.headline || 'Senior Full-stack AI Engineer')
-        : (profile?.headline || profile?.headline_en || 'Senior Full-stack AI Engineer')
+        ? (profile?.headline_en || profile?.headline || 'System Engineer / Automation Engineer')
+        : (profile?.headline || profile?.headline_en || 'System Engineer / Automation Engineer')
 
     const tagline = locale === 'en'
         ? (profile?.tagline_en || profile?.tagline || 'Bridging Complex Business Logic with Scalable AI Automation')

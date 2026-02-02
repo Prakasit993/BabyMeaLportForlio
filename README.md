@@ -1,4 +1,4 @@
-# 🚀 Professional Portfolio - Full-stack AI Engineer
+# 🚀 Professional Portfolio - System Engineer / Automation Engineer
 
 A high-performance, aesthetically pleasing portfolio built with **Next.js**, **Supabase**, and **Framer Motion**. Featuring a secure Admin Dashboard, multi-language support, and enterprise-grade security.
 
@@ -51,24 +51,49 @@ babymeal-portfolio/
 
 ## 🚀 Getting Started
 
-### 1. Environment Setup
-Create a `.env.local` file with your credentials:
-```env
-NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-SUPABASE_SERVICE_ROLE_KEY=...
-ADMIN_PASSWORD_HASH=...
+### Prerequisites
+
+Ensure you have the following installed:
+
+| Tool | Required Version | Check Command |
+|------|------------------|---------------|
+| **Node.js** | `>=18.17.0` (LTS recommended) | `node -v` |
+| **npm** | `>=9.0.0` | `npm -v` |
+
+> 💡 Download the latest LTS version from [nodejs.org](https://nodejs.org/)
+
+---
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/babymeal-portfolio.git
+cd babymeal-portfolio
 ```
 
-### 2. Installations & Running
+### 2. Environment Setup
+Create a `.env.local` file in the project root:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+ADMIN_PASSWORD_HASH=your_bcrypt_hash
+```
+
+### 3. Install Dependencies
 ```bash
 npm install
-npm run dev
 ```
 
-### 3. Production Build
+### 4. Run Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### 5. Production Build
 ```bash
 npm run build
+npm start
 ```
 
 ---

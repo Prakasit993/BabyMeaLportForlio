@@ -42,7 +42,7 @@ export default function Footer({ profile }: FooterProps) {
                             {profile?.full_name_en || 'Portfolio'}
                         </h3>
                         <p className="text-[var(--text-secondary)] text-sm leading-relaxed max-w-sm">
-                            {profile?.tagline_en || profile?.tagline || 'Senior Full-stack AI Engineer creating scalable business solutions.'}
+                            {profile?.tagline_en || profile?.tagline || 'System Engineer / Automation Engineer creating scalable business solutions.'}
                         </p>
                     </div>
 
@@ -126,7 +126,7 @@ export default function Footer({ profile }: FooterProps) {
 
                 <div className="pt-8 border-t border-[var(--border-glass)] text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-[var(--text-muted)] text-xs">
-                        © {currentYear} {profile?.full_name_en || 'Senior Full-stack AI Engineer'}. All rights reserved.
+                        © {currentYear} {profile?.full_name_en || 'System Engineer / Automation Engineer'}. All rights reserved.
                     </p>
                     <p className="text-[var(--text-muted)] text-xs">
                         {t('footer.built_with')}

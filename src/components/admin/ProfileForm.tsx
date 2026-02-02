@@ -255,7 +255,7 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
                             value={formData.headline}
                             onChange={handleChange}
                             className="admin-input"
-                            placeholder="Senior Full-stack AI Engineer"
+                            placeholder="System Engineer / Automation Engineer"
                         />
                     </div>
                     <div className="admin-grid-item">
@@ -280,7 +280,7 @@ export default function ProfileForm({ profile, userEmail }: ProfileFormProps) {
                             value={formData.headline_en}
                             onChange={handleChange}
                             className="admin-input"
-                            placeholder="Senior Full-stack AI Engineer"
+                            placeholder="System Engineer / Automation Engineer"
                         />
                     </div>
                     <div className="admin-grid-item">
