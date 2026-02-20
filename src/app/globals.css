@@ -228,6 +228,20 @@ body {
   z-index: 1;
 }
 
+/* Avatar Float Animation */
+@keyframes avatarFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.avatar-float {
+  animation: avatarFloat 4s ease-in-out infinite;
+}
+
 /* Section Styles */
 section {
   padding: 100px 0;
