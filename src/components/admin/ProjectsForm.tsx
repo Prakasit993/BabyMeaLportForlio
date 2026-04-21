@@ -14,7 +14,7 @@ interface ProjectsFormProps {
 }
 
 export default function ProjectsForm({ projects: initialProjects, userEmail }: ProjectsFormProps) {
-    const { t } = useLanguage()
+    const { t, locale } = useLanguage()
     const [projects, setProjects] = useState<Partial<Project>[]>(
         initialProjects.length > 0 ? initialProjects : [
             { title: '', title_en: '', subtitle: '', subtitle_en: '', description: '', description_en: '', icon: '🚀', tags: [], link_url: '', sort_order: 1 }
@@ -42,6 +42,22 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
             ...prev,
             { title: '', title_en: '', subtitle: '', subtitle_en: '', description: '', description_en: '', icon: '📦', tags: [], link_url: '', sort_order: prev.length + 1 }
         ])
+    }
+
+    function applyDescriptionTemplate(index: number, lang: 'th' | 'en') {
+        const template = lang === 'th'
+            ? `ปัญหา: 
+
+แก้ปัญหาด้วย: 
+
+วัดผลได้: 1)  2)  3)`
+            : `Problem: 
+
+Solution: 
+
+Measurable Impact: 1)  2)  3)`
+
+        handleChange(index, lang === 'th' ? 'description' : 'description_en', template)
     }
 
     function removeProject(index: number) {
@@ -273,14 +289,26 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
                                     />
                                 </div>
                                 <div className="admin-grid-item">
-                                    <label className="admin-label">Description (TH)</label>
+                                    <div className="flex items-center justify-between gap-3">
+                                        <label className="admin-label !mb-0">Description (TH)</label>
+                                        <button
+                                            type="button"
+                                            onClick={() => applyDescriptionTemplate(index, 'th')}
+                                            className="text-[10px] md:text-xs px-2.5 py-1 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-[var(--text-secondary)] transition-colors"
+                                        >
+                                            ใช้ Template
+                                        </button>
+                                    </div>
                                     <textarea
                                         value={project.description || ''}
                                         onChange={(e) => handleChange(index, 'description', e.target.value)}
                                         className="admin-input resize-none"
                                         rows={6}
-                                        placeholder="รายละเอียดโปรเจคภาษาไทย..."
+                                        placeholder="ใส่ตามรูปแบบ: ปัญหา / แก้ปัญหาด้วย / วัดผลได้"
                                     />
+                                    <p className="text-[11px] text-[var(--text-muted)]">
+                                        แนะนำให้เขียนเป็น 3 บล็อกเพื่อให้หน้า Portfolio อ่านเข้าใจง่ายบนมือถือ
+                                    </p>
                                 </div>
                             </div>
 
@@ -308,14 +336,26 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
                                     />
                                 </div>
                                 <div className="admin-grid-item">
-                                    <label className="admin-label">Description (EN)</label>
+                                    <div className="flex items-center justify-between gap-3">
+                                        <label className="admin-label !mb-0">Description (EN)</label>
+                                        <button
+                                            type="button"
+                                            onClick={() => applyDescriptionTemplate(index, 'en')}
+                                            className="text-[10px] md:text-xs px-2.5 py-1 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-[var(--text-secondary)] transition-colors"
+                                        >
+                                            Use Template
+                                        </button>
+                                    </div>
                                     <textarea
                                         value={project.description_en || ''}
                                         onChange={(e) => handleChange(index, 'description_en', e.target.value)}
                                         className="admin-input resize-none"
                                         rows={6}
-                                        placeholder="Project details in English..."
+                                        placeholder="Use format: Problem / Solution / Measurable Impact"
                                     />
+                                    <p className="text-[11px] text-[var(--text-muted)]">
+                                        Keep each part concise for better readability on phone and laptop screens.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -329,6 +369,11 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
                                 className="admin-input"
                                 placeholder="AI Integration, Next.js, Automation"
                             />
+                            <p className="text-[11px] text-[var(--text-muted)]">
+                                {locale === 'en'
+                                    ? 'Tip: keep 3-6 focused tags so users scan your project faster.'
+                                    : 'แนะนำ 3-6 แท็กที่ตรงประเด็น เพื่อให้คนดูสแกนเข้าใจเร็ว'}
+                            </p>
                         </div>
                     </div>
                 ))}

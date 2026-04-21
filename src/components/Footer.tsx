@@ -10,7 +10,7 @@ interface FooterProps {
 }
 
 export default function Footer({ profile }: FooterProps) {
-    const { t } = useLanguage()
+    const { locale, t } = useLanguage()
     const currentYear = new Date().getFullYear()
     const [showLineQR, setShowLineQR] = useState(false)
 
@@ -33,16 +33,16 @@ export default function Footer({ profile }: FooterProps) {
         : ''
 
     return (
-        <footer className="footer bg-[var(--bg-secondary)] pt-16 pb-8 border-t border-[var(--border-glass)] text-left relative">
+        <footer id="contact" className="footer bg-[var(--bg-secondary)] pt-16 pb-8 border-t border-[var(--border-glass)] text-left relative">
             <div className="container mx-auto px-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
                     {/* Column 1: Brand & Info */}
                     <div className="flex flex-col gap-4">
                         <h3 className="text-2xl font-bold gradient-text">
-                            {profile?.full_name_en || 'Portfolio'}
+                            {(locale === 'en' ? (profile?.full_name_en || profile?.full_name) : (profile?.full_name || profile?.full_name_en)) || 'Portfolio'}
                         </h3>
                         <p className="text-[var(--text-secondary)] text-sm leading-relaxed max-w-sm">
-                            {profile?.tagline_en || profile?.tagline || 'System Engineer / Automation Engineer creating scalable business solutions.'}
+                            {(locale === 'en' ? (profile?.tagline_en || profile?.tagline) : (profile?.tagline || profile?.tagline_en)) || 'System Engineer / Automation Engineer creating scalable business solutions.'}
                         </p>
                     </div>
 
@@ -88,6 +88,7 @@ export default function Footer({ profile }: FooterProps) {
                                     href={profile.social_links.github}
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    aria-label="GitHub profile"
                                     className="p-2 bg-[var(--bg-glass)] rounded-full text-[var(--text-secondary)] hover:bg-[var(--accent-primary)] hover:text-white transition-all"
                                     title="GitHub"
                                 >
@@ -101,6 +102,7 @@ export default function Footer({ profile }: FooterProps) {
                                     href={profile.social_links.linkedin}
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    aria-label="LinkedIn profile"
                                     className="p-2 bg-[var(--bg-glass)] rounded-full text-[var(--text-secondary)] hover:bg-[var(--accent-primary)] hover:text-white transition-all"
                                     title="LinkedIn"
                                 >
@@ -112,6 +114,7 @@ export default function Footer({ profile }: FooterProps) {
                             {profile?.social_links?.line && (
                                 <button
                                     onClick={handleLineClick}
+                                    aria-label="Open LINE QR code"
                                     className="p-2 bg-[var(--bg-glass)] rounded-full text-[var(--text-secondary)] hover:bg-[#06C755] hover:text-white transition-all cursor-pointer"
                                     title="LINE QR Code"
                                 >

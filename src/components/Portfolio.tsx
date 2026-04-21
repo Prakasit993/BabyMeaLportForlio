@@ -3,6 +3,8 @@
 import { motion, AnimatePresence, Variants } from 'framer-motion'
 import type { Project } from '@/lib/types'
 import { useLanguage } from '@/lib/context/language-context'
+import { useState } from 'react'
+import type { CSSProperties, MouseEvent } from 'react'
 
 interface PortfolioProps {
     projects: Project[]
@@ -59,6 +61,41 @@ const defaultProjects: Project[] = [
 export default function Portfolio({ projects }: PortfolioProps) {
     const { locale, t } = useLanguage()
     const displayProjects = projects.length > 0 ? projects : defaultProjects
+    const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({})
+
+    const handleCardMouseMove = (event: MouseEvent<HTMLElement>) => {
+        const card = event.currentTarget
+        const rect = card.getBoundingClientRect()
+        const x = event.clientX - rect.left
+        const y = event.clientY - rect.top
+        const centerX = rect.width / 2
+        const centerY = rect.height / 2
+        const rotateX = ((centerY - y) / centerY) * 5
+        const rotateY = ((x - centerX) / centerX) * 5
+
+        card.style.setProperty('--card-rotate-x', `${rotateX}deg`)
+        card.style.setProperty('--card-rotate-y', `${rotateY}deg`)
+        card.style.setProperty('--card-glow-x', `${(x / rect.width) * 100}%`)
+        card.style.setProperty('--card-glow-y', `${(y / rect.height) * 100}%`)
+    }
+
+    const handleCardMouseLeave = (event: MouseEvent<HTMLElement>) => {
+        const card = event.currentTarget
+        card.style.setProperty('--card-rotate-x', '0deg')
+        card.style.setProperty('--card-rotate-y', '0deg')
+        card.style.setProperty('--card-glow-x', '50%')
+        card.style.setProperty('--card-glow-y', '50%')
+    }
+
+    const toggleCardExpand = (projectId: string) => {
+        setExpandedCards(prev => ({ ...prev, [projectId]: !prev[projectId] }))
+    }
+
+    const clampSummaryText = (value: string, maxChars = 140) => {
+        const normalized = value.replace(/\s+/g, ' ').trim()
+        if (normalized.length <= maxChars) return normalized
+        return `${normalized.slice(0, maxChars).trim()}...`
+    }
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -126,14 +163,35 @@ export default function Portfolio({ projects }: PortfolioProps) {
                             target: "_blank",
                             rel: "noopener noreferrer",
                         } : {};
+                        const isExpanded = Boolean(expandedCards[project.id])
+                        const tagsToRender = isExpanded ? project.tags : project.tags.slice(0, 5)
+                        const extraTagsCount = project.tags.length - tagsToRender.length
 
                         return (
                             <CardWrapper
                                 key={project.id}
                                 variants={itemVariants}
                                 {...wrapperProps}
-                                className="glass-card p-1 group flex flex-col h-full overflow-hidden cursor-pointer no-underline"
+                                onMouseMove={handleCardMouseMove}
+                                onMouseLeave={handleCardMouseLeave}
+                                style={{
+                                    '--card-rotate-x': '0deg',
+                                    '--card-rotate-y': '0deg',
+                                    '--card-glow-x': '50%',
+                                    '--card-glow-y': '50%',
+                                    transformStyle: 'preserve-3d',
+                                    transform: 'perspective(1000px) rotateX(var(--card-rotate-x)) rotateY(var(--card-rotate-y))',
+                                    transition: 'transform 220ms ease-out',
+                                } as CSSProperties}
+                                className="glass-card p-1 group flex flex-col h-full overflow-hidden cursor-pointer no-underline relative"
                             >
+                                <div
+                                    aria-hidden
+                                    className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                    style={{
+                                        background: 'radial-gradient(420px circle at var(--card-glow-x) var(--card-glow-y), rgba(99,102,241,0.22), transparent 45%)'
+                                    }}
+                                />
                                 <div className="p-8 md:p-10 flex flex-col h-full bg-[var(--bg-secondary)]/40 rounded-[19px] border border-white/5 group-hover:bg-transparent transition-colors duration-500 items-center text-center">
                                     {/* Media or Icon with spotlight */}
                                     <div className="relative mb-8 w-full aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 group-hover:border-[var(--accent-primary)]/30 transition-colors duration-500 bg-white/5">
@@ -162,13 +220,13 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                     </div>
 
                                     <div className="flex-grow w-full flex flex-col justify-center items-center">
-                                        <h3 className="text-2xl md:text-3xl font-bold mb-6 group-hover:text-[var(--accent-primary)] transition-colors duration-300 antialiased tracking-tight text-center">
+                                        <h3 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-[var(--accent-primary)] transition-colors duration-300 antialiased tracking-tight text-center min-h-[72px] md:min-h-[84px] flex items-center justify-center">
                                             {locale === 'en' ? (project.title_en || project.title) : (project.title || project.title_en)}
                                         </h3>
-                                        <p className="text-[var(--accent-tertiary)] text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase mb-10 opacity-90 text-center">
+                                        <p className="text-[var(--accent-tertiary)] text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase mb-6 opacity-90 text-center min-h-[38px] flex items-center">
                                             {locale === 'en' ? (project.subtitle_en || project.subtitle) : (project.subtitle || project.subtitle_en)}
                                         </p>
-                                        <div className="w-full mb-8 rounded-2xl border border-white/5 overflow-hidden divide-y divide-white/5">
+                                        <div className={`w-full ${isExpanded ? 'mb-4' : 'mb-3'} rounded-2xl border border-white/5 overflow-hidden divide-y divide-white/5`}>
                                             {(() => {
                                                 const raw = (locale === 'en'
                                                     ? (project.description_en || project.description)
@@ -221,8 +279,41 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                                         .map(s => s.trim())
                                                         .filter(Boolean)
 
-                                                    const isList = numberedItems.length > 1
-                                                    const isDot = !isList && dotItems.length > 1
+                                                        const isList = numberedItems.length > 1
+                                                        const isDot = !isList && dotItems.length > 1
+
+                                                    // Compact mode keeps all cards visually aligned and easier to scan.
+                                                    if (!isExpanded) {
+                                                        const compactText = isList
+                                                            ? clampSummaryText(numberedItems.slice(0, 2).join(' • '), 145)
+                                                            : isDot
+                                                                ? clampSummaryText(dotItems.slice(0, 2).join(' • '), 145)
+                                                                : clampSummaryText(sec.body, 145)
+
+                                                        return (
+                                                            <div
+                                                                key={idx}
+                                                                className={`flex items-start gap-4 px-4 py-3 md:px-5 md:py-3.5 bg-gradient-to-r ${sec.def.accent} min-h-[84px]`}
+                                                            >
+                                                                <div className={`flex-shrink-0 w-7 h-7 rounded-full border flex items-center justify-center text-[9px] font-bold ${sec.def.dot} mt-0.5`}>
+                                                                    {sec.def.step}
+                                                                </div>
+                                                                <div className="flex-1 min-w-0 text-left">
+                                                                    <p className="text-[10px] font-bold tracking-[0.18em] uppercase opacity-60 mb-1.5">
+                                                                        {sec.def.label}
+                                                                    </p>
+                                                                    <p className="text-[var(--text-secondary)] text-xs md:text-sm leading-relaxed">
+                                                                        {compactText}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    }
+                                                        const listItemsToRender = isExpanded ? numberedItems : numberedItems.slice(0, 2)
+                                                        const dotItemsToRender = isExpanded ? dotItems : dotItems.slice(0, 2)
+                                                        const plainTextBody = isExpanded || sec.body.length <= 160
+                                                            ? sec.body
+                                                            : `${sec.body.slice(0, 160).trim()}...`
 
                                                     return (
                                                         <div
@@ -243,7 +334,7 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                                                 {isList ? (
                                                                     // Numbered list → pill rows
                                                                     <ul className="space-y-1.5">
-                                                                        {numberedItems.map((item, i) => (
+                                                                        {listItemsToRender.map((item, i) => (
                                                                             <li key={i} className="flex items-start gap-2">
                                                                                 <span className={`flex-shrink-0 mt-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold border ${sec.def.dot}`}>
                                                                                     {i + 1}
@@ -257,7 +348,7 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                                                 ) : isDot ? (
                                                                     // · separated → metric pills
                                                                     <div className="flex flex-wrap gap-2">
-                                                                        {dotItems.map((item, i) => (
+                                                                        {dotItemsToRender.map((item, i) => (
                                                                             <span key={i} className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] md:text-xs font-semibold border ${sec.def.dot} bg-white/5`}>
                                                                                 <span className="opacity-60">✓</span>
                                                                                 {item}
@@ -267,7 +358,7 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                                                 ) : (
                                                                     // Plain text
                                                                     <p className="text-[var(--text-secondary)] text-xs md:text-sm leading-relaxed group-hover:text-[var(--text-primary)] transition-colors">
-                                                                        {sec.body}
+                                                                        {plainTextBody}
                                                                     </p>
                                                                 )}
                                                             </div>
@@ -276,15 +367,31 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                                 })
                                             })()}
                                         </div>
+                                        <button
+                                            type="button"
+                                            onClick={(event) => {
+                                                event.preventDefault()
+                                                event.stopPropagation()
+                                                toggleCardExpand(project.id)
+                                            }}
+                                            className="text-xs font-semibold text-[var(--accent-tertiary)] hover:text-[var(--accent-primary)] transition-colors mb-8 underline underline-offset-4"
+                                        >
+                                            {isExpanded ? (locale === 'en' ? 'Show summary' : 'ย่อเนื้อหา') : (locale === 'en' ? 'Read full details' : 'ดูรายละเอียดเต็ม')}
+                                        </button>
                                     </div>
 
-                                    <div className="mt-auto space-y-8 w-full">
-                                        <div className="flex flex-wrap gap-2 justify-center">
-                                            {project.tags.map((tag) => (
+                                    <div className="mt-auto space-y-6 w-full">
+                                        <div className="flex flex-wrap gap-2 justify-center min-h-[52px] content-start">
+                                            {tagsToRender.map((tag) => (
                                                 <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] md:text-xs font-semibold text-[var(--text-secondary)] group-hover:border-[var(--accent-primary)]/30 group-hover:text-[var(--text-primary)] transition-all">
                                                     {tag}
                                                 </span>
                                             ))}
+                                            {!isExpanded && extraTagsCount > 0 && (
+                                                <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] md:text-xs font-semibold text-[var(--text-muted)]">
+                                                    +{extraTagsCount}
+                                                </span>
+                                            )}
                                         </div>
 
                                         {project.link_url && (

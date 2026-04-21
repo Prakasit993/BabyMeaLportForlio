@@ -6,6 +6,9 @@ import Philosophy from '@/components/Philosophy'
 import TechStack from '@/components/TechStack'
 import Footer from '@/components/Footer'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import TopNav from '@/components/TopNav'
+import ScrollProgress from '@/components/ScrollProgress'
+import ImpactCounters from '@/components/ImpactCounters'
 import type { Profile, Project, TechStack as TechStackType } from '@/lib/types'
 
 async function getProfile(): Promise<Profile | null> {
@@ -54,10 +57,30 @@ export default async function HomePage() {
     getTechStack()
   ])
 
+  const personJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: profile?.full_name || profile?.full_name_en || 'Business Solution Architect',
+    jobTitle: profile?.headline_en || profile?.headline || 'System Engineer / Automation Engineer',
+    email: profile?.email || undefined,
+    sameAs: [
+      profile?.social_links?.github,
+      profile?.social_links?.linkedin,
+      profile?.social_links?.line,
+    ].filter(Boolean),
+  }
+
   return (
     <main>
+      <ScrollProgress />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
+      <TopNav />
       <LanguageSwitcher />
       <Hero profile={profile} />
+      <ImpactCounters />
       <Introduction profile={profile} />
       <Portfolio projects={projects} />
       <Philosophy profile={profile} />

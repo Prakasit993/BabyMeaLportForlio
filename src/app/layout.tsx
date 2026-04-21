@@ -16,6 +16,16 @@ export const metadata: Metadata = {
   title: "System Engineer / Automation Engineer | Business Solution Architect",
   description: "Portfolio ของ System Engineer / Automation Engineer | Business Solution Architect - ผู้เชี่ยวชาญด้าน Next.js, AI และ Automation",
   keywords: "Full-stack Developer, AI Engineer, Next.js, Supabase, n8n, Business Automation, Thailand",
+  openGraph: {
+    title: "System Engineer / Automation Engineer | Business Solution Architect",
+    description: "Professional portfolio focused on scalable systems, AI and automation.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "System Engineer / Automation Engineer Portfolio",
+    description: "Professional portfolio focused on scalable systems, AI and automation.",
+  },
 };
 
 import { LanguageProvider } from "@/lib/context/language-context";
