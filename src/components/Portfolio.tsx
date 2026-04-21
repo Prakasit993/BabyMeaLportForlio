@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, AnimatePresence, Variants } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import type { Project } from '@/lib/types'
 import { useLanguage } from '@/lib/context/language-context'
 import { useState } from 'react'
@@ -164,7 +164,7 @@ export default function Portfolio({ projects }: PortfolioProps) {
                             rel: "noopener noreferrer",
                         } : {};
                         const isExpanded = Boolean(expandedCards[project.id])
-                        const tagsToRender = isExpanded ? project.tags : project.tags.slice(0, 5)
+                        const tagsToRender = isExpanded ? project.tags : project.tags.slice(0, 4)
                         const extraTagsCount = project.tags.length - tagsToRender.length
 
                         return (
@@ -219,14 +219,14 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                         <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                     </div>
 
-                                    <div className="flex-grow w-full flex flex-col justify-center items-center">
+                                    <div className="flex-grow w-full flex flex-col justify-start items-center">
                                         <h3 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-[var(--accent-primary)] transition-colors duration-300 antialiased tracking-tight text-center min-h-[72px] md:min-h-[84px] flex items-center justify-center">
                                             {locale === 'en' ? (project.title_en || project.title) : (project.title || project.title_en)}
                                         </h3>
                                         <p className="text-[var(--accent-tertiary)] text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase mb-6 opacity-90 text-center min-h-[38px] flex items-center">
                                             {locale === 'en' ? (project.subtitle_en || project.subtitle) : (project.subtitle || project.subtitle_en)}
                                         </p>
-                                        <div className={`w-full ${isExpanded ? 'mb-4' : 'mb-3'} rounded-2xl border border-white/5 overflow-hidden divide-y divide-white/5`}>
+                                        <div className={`w-full ${isExpanded ? 'mb-4' : 'mb-3 md:h-[290px]'} rounded-2xl border border-white/5 overflow-hidden divide-y divide-white/5`}>
                                             {(() => {
                                                 const raw = (locale === 'en'
                                                     ? (project.description_en || project.description)
@@ -302,7 +302,14 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                                                     <p className="text-[10px] font-bold tracking-[0.18em] uppercase opacity-60 mb-1.5">
                                                                         {sec.def.label}
                                                                     </p>
-                                                                    <p className="text-[var(--text-secondary)] text-xs md:text-sm leading-relaxed">
+                                                                    <p
+                                                                        className="text-[var(--text-secondary)] text-xs md:text-sm leading-relaxed h-[36px] md:h-[42px] overflow-hidden"
+                                                                        style={{
+                                                                            display: '-webkit-box',
+                                                                            WebkitLineClamp: 2,
+                                                                            WebkitBoxOrient: 'vertical',
+                                                                        }}
+                                                                    >
                                                                         {compactText}
                                                                     </p>
                                                                 </div>
@@ -374,14 +381,14 @@ export default function Portfolio({ projects }: PortfolioProps) {
                                                 event.stopPropagation()
                                                 toggleCardExpand(project.id)
                                             }}
-                                            className="text-xs font-semibold text-[var(--accent-tertiary)] hover:text-[var(--accent-primary)] transition-colors mb-8 underline underline-offset-4"
+                                            className="text-xs font-semibold text-[var(--accent-tertiary)] hover:text-[var(--accent-primary)] transition-colors mb-8 underline underline-offset-4 min-h-[20px]"
                                         >
                                             {isExpanded ? (locale === 'en' ? 'Show summary' : 'ย่อเนื้อหา') : (locale === 'en' ? 'Read full details' : 'ดูรายละเอียดเต็ม')}
                                         </button>
                                     </div>
 
                                     <div className="mt-auto space-y-6 w-full">
-                                        <div className="flex flex-wrap gap-2 justify-center min-h-[52px] content-start">
+                                        <div className="flex flex-wrap gap-2 justify-center min-h-[60px] md:min-h-[66px] content-start">
                                             {tagsToRender.map((tag) => (
                                                 <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] md:text-xs font-semibold text-[var(--text-secondary)] group-hover:border-[var(--accent-primary)]/30 group-hover:text-[var(--text-primary)] transition-all">
                                                     {tag}

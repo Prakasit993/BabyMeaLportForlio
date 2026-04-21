@@ -22,6 +22,7 @@ export default function ProjectsForm({ projects: initialProjects, userEmail }: P
     )
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState('')
+    const [expandedProjects, setExpandedProjects] = useState<Record<number, boolean>>({ 0: true })
     const router = useRouter()
 
     function handleChange(index: number, field: string, value: string | string[]) {
@@ -63,6 +64,23 @@ Measurable Impact: 1)  2)  3)`
     function removeProject(index: number) {
         if (projects.length === 1) return
         setProjects(prev => prev.filter((_, i) => i !== index))
+        setExpandedProjects(prev => {
+            const next: Record<number, boolean> = {}
+            Object.entries(prev).forEach(([key, value]) => {
+                const numericKey = Number(key)
+                if (numericKey < index) next[numericKey] = value
+                if (numericKey > index) next[numericKey - 1] = value
+            })
+            if (Object.keys(next).length === 0) next[0] = true
+            return next
+        })
+    }
+
+    function toggleProjectExpand(index: number) {
+        setExpandedProjects(prev => ({
+            ...prev,
+            [index]: !prev[index]
+        }))
     }
 
     function isValidHttpUrl(value: string) {
@@ -249,20 +267,35 @@ Measurable Impact: 1)  2)  3)`
                             {index + 1}
                         </div>
 
-                        <div className="flex items-center justify-end mb-8">
+                        <div className="flex items-center justify-between mb-6">
+                            <button
+                                type="button"
+                                onClick={() => toggleProjectExpand(index)}
+                                className="lg:hidden min-h-11 px-4 py-2 bg-white/5 border border-white/10 text-sm font-semibold rounded-xl text-[var(--text-secondary)] hover:text-white transition-colors"
+                            >
+                                {expandedProjects[index]
+                                    ? (locale === 'en' ? 'Collapse section' : 'ย่อหัวข้อนี้')
+                                    : (locale === 'en' ? 'Expand section' : 'ขยายหัวข้อนี้')}
+                            </button>
+
+                            <div className="text-xs text-[var(--text-muted)] truncate max-w-[55%] lg:max-w-[65%]">
+                                {(locale === 'en' ? (project.title_en || project.title) : (project.title || project.title_en)) || (locale === 'en' ? 'Untitled Project' : 'ยังไม่มีชื่อโปรเจกต์')}
+                            </div>
+
                             {projects.length > 1 && (
                                 <button
                                     type="button"
                                     onClick={() => removeProject(index)}
-                                    className="px-3 py-1.5 bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 rounded-lg text-xs font-bold transition-all"
+                                    className="min-h-11 px-4 py-2 bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 rounded-xl text-sm font-bold transition-all"
                                 >
                                     ลบชุดนี้
                                 </button>
                             )}
                         </div>
 
-                        {/* Media Upload Section */}
-                        <div className="grid md:grid-cols-2 gap-8 mb-8 p-8 bg-white/5 rounded-2xl border border-white/5">
+                        <div className={expandedProjects[index] ? 'block' : 'hidden lg:block'}>
+                            {/* Media Upload Section */}
+                            <div className="grid md:grid-cols-2 gap-8 mb-8 p-8 bg-white/5 rounded-2xl border border-white/5">
                             <div className="admin-grid-item">
                                 <label className="admin-label text-[var(--accent-primary)]">Project Image / Thumbnail</label>
                                 <div className="flex items-center gap-6">
@@ -285,7 +318,7 @@ Measurable Impact: 1)  2)  3)`
                                             {loading ? '...' : 'อัพโหลดรูปภาพ'}
                                         </label>
                                         {project.image_url && (
-                                            <button type="button" onClick={() => handleChange(index, 'image_url', '')} className="text-[10px] text-red-400 mt-2 hover:underline">เอาออก</button>
+                                            <button type="button" onClick={() => handleChange(index, 'image_url', '')} className="min-h-11 px-3 mt-2 rounded-xl border border-red-500/20 bg-red-500/10 text-sm font-semibold text-red-400 hover:bg-red-500/20 transition-colors">เอาออก</button>
                                         )}
                                     </div>
                                 </div>
@@ -313,14 +346,14 @@ Measurable Impact: 1)  2)  3)`
                                             {loading ? '...' : 'อัพโหลดวิดีโอ'}
                                         </label>
                                         {project.video_url && (
-                                            <button type="button" onClick={() => handleChange(index, 'video_url', '')} className="text-[10px] text-red-400 mt-2 hover:underline">เอาออก</button>
+                                            <button type="button" onClick={() => handleChange(index, 'video_url', '')} className="min-h-11 px-3 mt-2 rounded-xl border border-red-500/20 bg-red-500/10 text-sm font-semibold text-red-400 hover:bg-red-500/20 transition-colors">เอาออก</button>
                                         )}
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            </div>
 
-                        <div className="grid md:grid-cols-3 gap-8 mb-10">
+                            <div className="grid md:grid-cols-3 gap-8 mb-10">
                             <div className="admin-grid-item">
                                 <label className="admin-label">Icon (Emoji)</label>
                                 <input
@@ -341,9 +374,9 @@ Measurable Impact: 1)  2)  3)`
                                     placeholder="https://your-project-link.com"
                                 />
                             </div>
-                        </div>
+                            </div>
 
-                        <div className="grid md:grid-cols-2 gap-10 mb-8 pt-8 border-t border-white/5">
+                            <div className="grid md:grid-cols-2 gap-10 mb-8 pt-8 border-t border-white/5">
                             {/* Thai Content */}
                             <div className="space-y-6">
                                 <h4 className="admin-section-header text-[var(--accent-primary)]">🇹🇭 Thai Content</h4>
@@ -374,7 +407,7 @@ Measurable Impact: 1)  2)  3)`
                                         <button
                                             type="button"
                                             onClick={() => applyDescriptionTemplate(index, 'th')}
-                                            className="text-[10px] md:text-xs px-2.5 py-1 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-[var(--text-secondary)] transition-colors"
+                                            className="min-h-10 px-3 py-1.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-sm font-semibold text-[var(--text-secondary)] transition-colors"
                                         >
                                             ใช้ Template
                                         </button>
@@ -421,7 +454,7 @@ Measurable Impact: 1)  2)  3)`
                                         <button
                                             type="button"
                                             onClick={() => applyDescriptionTemplate(index, 'en')}
-                                            className="text-[10px] md:text-xs px-2.5 py-1 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-[var(--text-secondary)] transition-colors"
+                                            className="min-h-10 px-3 py-1.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-sm font-semibold text-[var(--text-secondary)] transition-colors"
                                         >
                                             Use Template
                                         </button>
@@ -438,9 +471,9 @@ Measurable Impact: 1)  2)  3)`
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                            </div>
 
-                        <div className="pt-8 border-t border-white/5 admin-grid-item">
+                            <div className="pt-8 border-t border-white/5 admin-grid-item">
                             <label className="admin-label">Tags (คั่นด้วย ,)</label>
                             <input
                                 type="text"
@@ -454,6 +487,7 @@ Measurable Impact: 1)  2)  3)`
                                     ? 'Tip: keep 3-6 focused tags so users scan your project faster.'
                                     : 'แนะนำ 3-6 แท็กที่ตรงประเด็น เพื่อให้คนดูสแกนเข้าใจเร็ว'}
                             </p>
+                            </div>
                         </div>
                     </div>
                 ))}
