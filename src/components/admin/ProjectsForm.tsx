@@ -65,6 +65,48 @@ Measurable Impact: 1)  2)  3)`
         setProjects(prev => prev.filter((_, i) => i !== index))
     }
 
+    function isValidHttpUrl(value: string) {
+        try {
+            const url = new URL(value)
+            return url.protocol === 'http:' || url.protocol === 'https:'
+        } catch {
+            return false
+        }
+    }
+
+    function validateProjects() {
+        for (let i = 0; i < projects.length; i++) {
+            const p = projects[i]
+            const row = i + 1
+            if (!p.title?.trim()) {
+                return locale === 'en'
+                    ? `Project #${row}: Thai title is required.`
+                    : `โปรเจกต์ #${row}: กรุณากรอกชื่อภาษาไทย`
+            }
+            if (!p.description?.trim()) {
+                return locale === 'en'
+                    ? `Project #${row}: Thai description is required.`
+                    : `โปรเจกต์ #${row}: กรุณากรอกรายละเอียดภาษาไทย`
+            }
+            if ((p.tags || []).length === 0) {
+                return locale === 'en'
+                    ? `Project #${row}: Add at least 1 tag.`
+                    : `โปรเจกต์ #${row}: กรุณาเพิ่มแท็กอย่างน้อย 1 รายการ`
+            }
+            if ((p.tags || []).length > 6) {
+                return locale === 'en'
+                    ? `Project #${row}: Maximum 6 tags allowed.`
+                    : `โปรเจกต์ #${row}: ใส่แท็กได้สูงสุด 6 รายการ`
+            }
+            if (p.link_url && p.link_url.trim() && !isValidHttpUrl(p.link_url.trim())) {
+                return locale === 'en'
+                    ? `Project #${row}: Link URL must start with http:// or https://`
+                    : `โปรเจกต์ #${row}: ลิงก์ต้องขึ้นต้นด้วย http:// หรือ https://`
+            }
+        }
+        return ''
+    }
+
     async function handleMediaUpload(index: number, field: 'image_url' | 'video_url', e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0]
         if (!file) return
@@ -103,11 +145,11 @@ Measurable Impact: 1)  2)  3)`
 
         try {
             const supabase = createClient()
+            const validationError = validateProjects()
+            if (validationError) throw new Error(validationError)
 
-            // Delete all existing and insert fresh
-            await supabase.from('portfolio_projects').delete().neq('id', '00000000-0000-0000-0000-000000000000')
-
-            const projectsToInsert = projects.map((p, index) => ({
+            const mapProjectPayload = (p: Partial<Project>, index: number) => ({
+                id: p.id,
                 title: p.title || '',
                 title_en: p.title_en || '',
                 subtitle: p.subtitle || '',
@@ -120,16 +162,54 @@ Measurable Impact: 1)  2)  3)`
                 tags: p.tags || [],
                 link_url: p.link_url || null,
                 sort_order: index + 1
-            }))
+            })
 
-            const { error } = await supabase.from('portfolio_projects').insert(projectsToInsert)
-            if (error) throw error
+            const normalizedProjects = projects.map((p, index) => mapProjectPayload(p, index))
+
+            // 1) Delete only removed rows
+            const initialIds = initialProjects.map(p => p.id)
+            const currentIds = normalizedProjects
+                .map(p => p.id)
+                .filter((id): id is string => typeof id === 'string' && id.length > 0)
+            const removedIds = initialIds.filter(id => !currentIds.includes(id))
+
+            if (removedIds.length > 0) {
+                const { error: deleteError } = await supabase
+                    .from('portfolio_projects')
+                    .delete()
+                    .in('id', removedIds)
+                if (deleteError) throw deleteError
+            }
+
+            // 2) Upsert existing rows by id
+            const existingRows = normalizedProjects
+                .filter(p => typeof p.id === 'string' && p.id.length > 0)
+                .map(({ id, ...rest }) => ({ id, ...rest }))
+
+            if (existingRows.length > 0) {
+                const { error: upsertError } = await supabase
+                    .from('portfolio_projects')
+                    .upsert(existingRows, { onConflict: 'id' })
+                if (upsertError) throw upsertError
+            }
+
+            // 3) Insert brand new rows
+            const newRows = normalizedProjects
+                .filter(p => !p.id)
+                .map(({ id: _id, ...rest }) => rest)
+
+            if (newRows.length > 0) {
+                const { error: insertError } = await supabase
+                    .from('portfolio_projects')
+                    .insert(newRows)
+                if (insertError) throw insertError
+            }
 
             // Log the update
             await logAudit({
                 action: 'UPDATE',
                 tableName: 'portfolio_projects',
-                newData: { projects: projectsToInsert },
+                newData: { projects: normalizedProjects },
                 userEmail: userEmail
             })
 
